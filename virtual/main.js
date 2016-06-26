@@ -1,5 +1,19 @@
 var VirtualSphero = (function() {
+  var SpeedController = (function() {
+    function SpeedController() {
+      this._element = document.getElementById("speed");
+      this.speed = 0.2;
+      this._element.value = this.speed;
+      this._element.addEventListener("change", () => {
+        if (this._element.value !== "" && !isNaN(this._element.value)) {
+          this.speed = parseFloat(this._element.value);
+        }
+      });
+    };
+    return SpeedController;
+  })();
   function VirtualSphero() {
+    this.speedController = new SpeedController();
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
     this.x = 0;
@@ -19,12 +33,10 @@ var VirtualSphero = (function() {
     requestAnimationFrame(tick);
   }
   VirtualSphero.prototype.roll = function(far, degree) {
-    var speed = 0.2;
-
     var radian = (degree * Math.PI / 180);
 
-    this.ex = Math.sin(radian) * far * speed;
-    this.ey = -Math.cos(radian) * far * speed;
+    this.ex = Math.sin(radian) * far * this.speedController.speed;
+    this.ey = -Math.cos(radian) * far * this.speedController.speed;
   };
 
   VirtualSphero.prototype.updateSpheroPosition = function() {
@@ -63,3 +75,4 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 });
+
