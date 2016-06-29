@@ -2,10 +2,13 @@ var http = require("http");
 var path = require("path");
 var mime = require("mime");
 var fs = require("fs");
+var WebSocketServer = require("websocket").server;
 
-function VirtualPlugin(wsPort) {
+function VirtualPlugin(wsPort, allowedOrigin) {
   this.directory = __dirname + "/virtual";
   this.wsPort = wsPort;
+  this.connections = [];
+
   this.httpServer = http.createServer((request, response) => {
     url = request.url === "/" ? "/index.html" : request.url;
     fs.readFile(this.directory + url, function(err, data) {
@@ -26,12 +29,59 @@ function VirtualPlugin(wsPort) {
       }
     });
   }).listen(this.wsPort, () => {
-    console.log((new Date()) + " VirtualSphero Server is listening on port " + this.wsPort);
+    console.log("[VirtualSphero] " + (new Date()) + "VirtualSphero is listening on port " + this.wsPort);
+  });
+
+  this.wsServer = new WebSocketServer({
+    httpServer: this.httpServer,
+    autoAcceptConnections: false
+  });
+
+  this.wsServer.on("request", (request) => {
+    if (!originIsAllowed(allowedOrigin, request.origin)) {
+      request.reject();
+      console.log("[VirtualSphero] " + (new Date()) + " Connection from origin " + request.origin + " rejected.");
+      return;
+    }
+
+    var connection = request.accept(null, request.origin);
+    this.connections.push(connection);
+    console.log("[VirtualSphero] " + (new Date()) + " Connection from " + request.remoteAddress + " accepted");
+
+    connection.on("message", function(message) {
+      console.log("[VirtualSphero] client: " + request.key);
+      if (message.type === "utf8") {
+        try {
+          var data = JSON.parse(message.utf8Data);
+        } catch (e) {
+          console.error("invalid JSON format");
+          return;
+        }
+      }
+    });
+    connection.on("close", function(reasonCode, description) {
+      console.log("[VirtualSphero] " + (new Date()) + " Peer " + connection.remoteAddress + " disconnected.");
+    });
   });
 }
 
 VirtualPlugin.prototype.command = function(commandName, args) {
+  this.connections.forEach(connection => {
+    connection.sendUTF(JSON.stringify({
+      command: commandName,
+      arguments: args
+    }));
+  });
+};
 
+function originIsAllowed(allowedOrigin, origin) {
+  if (allowedOrigin == null || allowedOrigin === "*")
+    return true;
+  if (allowedOrigin === origin)
+    return true;
+  if (Array.isArray(allowedOrigin) && allowedOrigin.indexOf(origin) >= 0)
+    return true;
+  return false;
 }
 
 module.exports = VirtualPlugin;
