@@ -41,6 +41,7 @@ var VirtualSphero = (function() {
     this.speedController = new SpeedController();
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
+    this.ctx.fillStyle = 'white';
     this.x = 0;
     this.y = 0;
     this.ex = 0;
@@ -63,11 +64,15 @@ var VirtualSphero = (function() {
     this.ex = Math.sin(radian) * far * this.speedController.speed;
     this.ey = -Math.cos(radian) * far * this.speedController.speed;
   };
+  VirtualSphero.prototype.color = function(color) {
+    this.ctx.fillStyle = color;
+  };
 
   VirtualSphero.prototype.updateSpheroPosition = function() {
     this.clearCanvas();
     this.ctx.beginPath();
     this.ctx.arc(this.x + this.radius, this.y + this.radius, this.radius, 0, Math.PI * 2, true);
+    this.ctx.fill();
     this.ctx.stroke();
 
     var logo = new Image();
