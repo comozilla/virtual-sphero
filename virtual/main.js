@@ -36,7 +36,7 @@ var VirtualSpheroController = (function() {
       if (commands.indexOf(data.command) !== -1) {
         this.virtualSpheros.forEach(virtualSphero => {
           if (typeof virtualSphero[data.command] !== "undefined") {
-            virtualSphero[data.command].apply(this, data.arguments);
+            virtualSphero[data.command].apply(virtualSphero, data.arguments);
           }
         });
       }
@@ -57,6 +57,7 @@ var VirtualSpheroController = (function() {
     };
     requestAnimationFrame(tick);
     this.virtualSpheros = [];
+    this.addVirtualSphero();
   }
 
   VirtualSpheroController.prototype.clearCanvas = function() {
