@@ -53,12 +53,13 @@ var VirtualSpheroController = (function() {
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
+    this.virtualSpheros = [];
   }
 
   VirtualSpheroController.prototype.clearCanvas = function() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
-  
+
   var commands = [
     /* sphero.js */
     "setHeading",
@@ -142,4 +143,3 @@ var VirtualSpheroController = (function() {
 document.addEventListener("DOMContentLoaded", function() {
   var sphero = new VirtualSpheroController();
 });
-this.virtualSpheros = [];
