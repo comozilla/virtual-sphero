@@ -1,5 +1,6 @@
 function VirtualSphero(canvas, speedController) {
   this.speedController = speedController;
+  this.canvas = canvas;
 
   this.x = 0;
   this.y = 0;
@@ -7,7 +8,10 @@ function VirtualSphero(canvas, speedController) {
   this.ey = 0;
   this.radius = 25;
 
-  this.ctx = canvas.getContext("2d");
+  this.width = this.canvas.width;
+  this.height = this.canvas.height;
+
+  this.ctx = this.canvas.getContext("2d");
   this.ctx.fillStyle = "white";
 
   this.logo = new Image();
@@ -29,6 +33,12 @@ VirtualSphero.prototype.color = function(color) {
   this.ctx.fillStyle = color;
 };
 
+VirtualSphero.prototype.move = function() {
+  this.x = this.ex;
+  this.y = this.ey;
+  this.fixPosition();
+};
+
 VirtualSphero.prototype.draw = function() {
   if (!this.isLoadedLogo) {
     return;
@@ -39,7 +49,7 @@ VirtualSphero.prototype.draw = function() {
   this.ctx.fill();
   this.ctx.stroke();
 
-  this.ctx.drawImage(logo, this.x + 8, this.y + 8, 30, 30);
+  this.ctx.drawImage(this.logo, this.x + 8, this.y + 8, 30, 30);
 };
 
 VirtualSphero.prototype.fixPosition = function () {

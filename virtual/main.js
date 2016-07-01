@@ -34,22 +34,25 @@ var VirtualSpheroController = (function() {
         return;
       }
       if (commands.indexOf(data.command) !== -1) {
-        this[data.command].apply(this, data.arguments);
+        this.virtualSpheros.forEach(virtualSphero => {
+          if (typeof virtualSphero[data.command] !== "undefined") {
+            virtualSphero[data.command].apply(this, data.arguments);
+          }
+        });
       }
     }.bind(this);
 
     this.speedController = new SpeedController();
     this.canvas = document.getElementById("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    this.ctx.fillStyle = 'white';
-
-    this.radius = 25;
+    this.ctx = this.canvas.getContext("2d")
 
     var tick = () => {
-      this.x += this.ex;
-      this.y += this.ey;
-      this.fixPosition();
-      this.updateSpheroPosition();
+      this.clearCanvas();
+      this.virtualSpheros.forEach(virtualSphero =>
+      {
+        virtualSphero.move();
+        virtualSphero.draw();
+      });
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -58,7 +61,11 @@ var VirtualSpheroController = (function() {
 
   VirtualSpheroController.prototype.clearCanvas = function() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  }
+  };
+
+  VirtualSpheroController.prototype.addVirtualSphero = function() {
+    this.virtualSpheros.push(new VirtualSphero(this.canvas, this.speedController));
+  };
 
   var commands = [
     /* sphero.js */
@@ -142,4 +149,7 @@ var VirtualSpheroController = (function() {
 
 document.addEventListener("DOMContentLoaded", function() {
   var sphero = new VirtualSpheroController();
+  document.getElementById("add-sphero-button").addEventListener("click", function() {
+    sphero.addVirtualSphero();
+  });
 });
