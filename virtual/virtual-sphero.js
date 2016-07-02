@@ -34,8 +34,8 @@ VirtualSphero.prototype.color = function(color) {
 };
 
 VirtualSphero.prototype.move = function() {
-  this.x = this.ex;
-  this.y = this.ey;
+  this.x += this.ex;
+  this.y += this.ey;
   this.fixPosition();
 };
 

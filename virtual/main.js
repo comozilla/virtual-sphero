@@ -48,8 +48,7 @@ var VirtualSpheroController = (function() {
 
     var tick = () => {
       this.clearCanvas();
-      this.virtualSpheros.forEach(virtualSphero =>
-      {
+      this.virtualSpheros.forEach(virtualSphero => {
         virtualSphero.move();
         virtualSphero.draw();
       });
