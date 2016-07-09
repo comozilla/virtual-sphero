@@ -33,7 +33,13 @@ var VirtualSpheroController = (function() {
         console.log(e);
         return;
       }
-      if (commands.indexOf(data.command) !== -1) {
+      if (data.command.substring(0, 1) === "_") {
+        switch (data.command) {
+          case "_addVirtualSphero":
+            this.addVirtualSphero();
+            break;
+          }
+        } else if(commands.indexOf(data.command) !== -1) {
         this.virtualSpheros.forEach(virtualSphero => {
           if (typeof virtualSphero[data.command] !== "undefined") {
             virtualSphero[data.command].apply(virtualSphero, data.arguments);

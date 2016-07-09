@@ -14,6 +14,10 @@ var testKeys = {
     console.log("set random color");
     var randomColors = ["red", "blue", "yello", "green", "purple", "orange"];
     virtualSphero.command("color", [randomColors[Math.floor(Math.random() * randomColors.length)]]);
+  },
+  b: function() {
+    console.log("add sphero");
+    virtualSphero.command("_addVirtualSphero", []);
   }
 }
 
