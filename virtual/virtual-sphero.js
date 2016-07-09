@@ -34,8 +34,7 @@ VirtualSphero.prototype.color = function(color) {
 };
 
 VirtualSphero.prototype.randomColor = function() {
-  var colors = ["red", "orange", "green", "purple", "yellow"];
-  this.fillColor = colors[Math.floor(Math.random() * colors.length)];
+  this.fillColor = "#" + Math.floor(Math.random() * 16777216).toString(16);
 };
 
 VirtualSphero.prototype.move = function() {
