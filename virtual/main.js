@@ -34,6 +34,7 @@ var VirtualSpheroController = (function() {
         return;
       }
       if (data.command.substring(0, 1) === "_") {
+        console.log(data.command);
         switch (data.command) {
           case "_addVirtualSphero":
             this.addVirtualSphero();

@@ -12,7 +12,7 @@ function VirtualSphero(canvas, speedController) {
   this.height = this.canvas.height;
 
   this.ctx = this.canvas.getContext("2d");
-  this.ctx.fillStyle = "white";
+  this.fillColor = "white";
 
   this.logo = new Image();
   this.logo.src = "logo.png";
@@ -30,7 +30,12 @@ VirtualSphero.prototype.roll = function(far, degree) {
 };
 
 VirtualSphero.prototype.color = function(color) {
-  this.ctx.fillStyle = color;
+  this.fillColor = color;
+};
+
+VirtualSphero.prototype.randomColor = function() {
+  var colors = ["red", "orange", "green", "purple", "yellow"];
+  this.fillColor = colors[Math.floor(Math.random() * colors.length)];
 };
 
 VirtualSphero.prototype.move = function() {
@@ -45,6 +50,7 @@ VirtualSphero.prototype.draw = function() {
   }
 
   this.ctx.beginPath();
+  this.ctx.fillStyle = this.fillColor;
   this.ctx.arc(this.x + this.radius, this.y + this.radius, this.radius, 0, Math.PI * 2, true);
   this.ctx.fill();
   this.ctx.stroke();
