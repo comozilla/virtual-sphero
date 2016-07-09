@@ -44,12 +44,37 @@ var VirtualSpheroController = (function() {
 
     this.speedController = new SpeedController();
     this.canvas = document.getElementById("canvas");
-    this.ctx = this.canvas.getContext("2d")
+    this.ctx = this.canvas.getContext("2d");
 
     var tick = () => {
       this.clearCanvas();
-      this.virtualSpheros.forEach(virtualSphero => {
-        virtualSphero.move();
+      var moveSphero = [];
+      this.virtualSpheros.forEach((virtualSphero, index) => {
+        var collidedSpheroCount = this.virtualSpheros.filter((targetSphero, targetIndex) => {
+          if (targetIndex === index) {
+            return false;
+          }
+          var movedVirtualSpheroX = virtualSphero.x + virtualSphero.ex;
+          var movedVirtualSpheroY = virtualSphero.y + virtualSphero.ey;
+          var movedTargetSpheroX = targetSphero.x + targetSphero.ex;
+          var movedTargetSpheroY = targetSphero.y + targetSphero.ey;
+          var dx = Math.abs(movedVirtualSpheroX - movedTargetSpheroX);
+          var dy = Math.abs(movedVirtualSpheroY - movedTargetSpheroY);
+          if (Math.sqrt(dx * dx + dy * dy) <= virtualSphero.radius * 2) {
+            var collsionRadian = 
+              Math.atan2(movedTargetSpheroY - movedVirtualSpheroY, movedTargetSpheroX - movedVirtualSpheroX) * 180 /Math.PI;
+            var moveRadian = Math.atan2(virtualSphero.ey, virtualSphero.ex) * 180 /Math.PI;
+            return Math.abs(collsionRadian - moveRadian) <= 10;
+          }
+        }).length;
+        if (collidedSpheroCount === 0) {
+          moveSphero.push(index);
+        }
+      });
+      this.virtualSpheros.forEach((virtualSphero, index) => {
+        if (moveSphero.indexOf(index) >= 0) {
+          virtualSphero.move();
+        }
         virtualSphero.draw();
       });
       requestAnimationFrame(tick);
