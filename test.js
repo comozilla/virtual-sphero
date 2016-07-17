@@ -10,10 +10,15 @@ var testKeys = {
   down: ["roll", 100, 180],
   left: ["roll", 100, 270],
   space: ["roll", 0, 0],
+  r: ["randomColor", null],
   a: function() {
     console.log("set random color");
-    var randomColors = ["red", "blue", "yello", "green", "purple", "orange"];
+    var randomColors = ["red", "blue", "yellow", "green", "purple", "orange"];
     virtualSphero.command("color", [randomColors[Math.floor(Math.random() * randomColors.length)]]);
+  },
+  b: function() {
+    console.log("add sphero");
+    virtualSphero.command("_addVirtualSphero", []);
   }
 }
 
