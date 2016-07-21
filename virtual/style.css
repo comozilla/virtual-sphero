@@ -4,10 +4,14 @@
 }
 #div {
   position: absolute;
-  bottom: -2%;
-  left: 2%;
+  bottom: 10px;
+  left: 10px;
+}
+body {
+  margin: 0px;
+  overflow: hidden;
 }
 h1 {
   position: absolute;
-  left: 2%;
+  left: 10px;
 }
