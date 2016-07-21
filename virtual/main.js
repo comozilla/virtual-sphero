@@ -186,4 +186,13 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("add-sphero-button").addEventListener("click", function() {
     sphero.addVirtualSphero();
   });
+
+var timer;
+window.addEventListener("resize", function() {
+  if (timer !== false) clearTimeout(timer);
+  timer = setTimeout(function() {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+    }, 50);
+  });
 });
