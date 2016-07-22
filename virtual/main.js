@@ -71,7 +71,7 @@ var VirtualSpheroController = (function() {
           var dy = Math.abs(movedVirtualSpheroY - movedTargetSpheroY);
           if (Math.sqrt(dx * dx + dy * dy) <= virtualSphero.radius * 2) {
             var collsionRadian = 
-              Math.atan2(movedTargetSpheroY - movedVirtualSpheroY, movedTargetSpheroX - movedVirtualSpheroX) * 180 /Math.PI;
+              Math.atan2(movedTargetSpheroY - movedVirtualSpheroY, movedTargetSpheroX - movedVirtualSpheroX) * 180 / Math.PI;
             var moveRadian = Math.atan2(virtualSphero.ey, virtualSphero.ex) * 180 / Math.PI;
             return Math.abs(collsionRadian - moveRadian) <= 10;
           }
@@ -187,14 +187,10 @@ document.addEventListener("DOMContentLoaded", function() {
     sphero.addVirtualSphero();
   });
 
-var timer;
-window.addEventListener("resize", function() {
-  if (timer !== false) clearTimeout(timer);
-  timer = setTimeout(function() {
-      this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight;
-      this.clearCanvas();
-      virtualSphero.draw();
-    }, 500);
+  window.addEventListener("resize", function() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    this.clearCanvas();
+    virtualSphero.draw();
   });
 });
