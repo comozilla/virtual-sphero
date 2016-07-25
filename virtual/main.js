@@ -52,6 +52,8 @@ var VirtualSpheroController = (function() {
     this.speedController = new SpeedController();
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
 
     var tick = () => {
       this.clearCanvas();
@@ -69,8 +71,8 @@ var VirtualSpheroController = (function() {
           var dy = Math.abs(movedVirtualSpheroY - movedTargetSpheroY);
           if (Math.sqrt(dx * dx + dy * dy) <= virtualSphero.radius * 2) {
             var collsionRadian = 
-              Math.atan2(movedTargetSpheroY - movedVirtualSpheroY, movedTargetSpheroX - movedVirtualSpheroX) * 180 /Math.PI;
-            var moveRadian = Math.atan2(virtualSphero.ey, virtualSphero.ex) * 180 /Math.PI;
+              Math.atan2(movedTargetSpheroY - movedVirtualSpheroY, movedTargetSpheroX - movedVirtualSpheroX) * 180 / Math.PI;
+            var moveRadian = Math.atan2(virtualSphero.ey, virtualSphero.ex) * 180 / Math.PI;
             return Math.abs(collsionRadian - moveRadian) <= 10;
           }
         }).length;
@@ -183,5 +185,12 @@ document.addEventListener("DOMContentLoaded", function() {
   var sphero = new VirtualSpheroController();
   document.getElementById("add-sphero-button").addEventListener("click", function() {
     sphero.addVirtualSphero();
+  });
+
+  window.addEventListener("resize", function() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    this.clearCanvas();
+    virtualSphero.draw();
   });
 });
