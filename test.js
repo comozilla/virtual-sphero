@@ -23,8 +23,7 @@ var testKeys = {
   d: function() {
     console.log("remove sphero");
     var spheroNames = virtualSphero.getNames();
-    var virtualSpheroID = Math.floor(Math.random() * spheroNames.length);
-    virtualSphero.removeSphero(spheroNames[virtualSpheroID], virtualSpheroID);
+    virtualSphero.removeSphero(spheroNames[Math.floor(Math.random() * spheroNames.length)]);
   },
   g: function() {
     console.log("get sphero names " + virtualSphero.getNames());
