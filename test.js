@@ -18,7 +18,7 @@ var testKeys = {
   },
   b: function() {
     console.log("add sphero");
-    virtualSphero.addSphero();
+    virtualSphero.addSphero("Sphero" + Math.floor(Math.random() * 500));
   }
 }
 
