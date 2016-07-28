@@ -81,9 +81,9 @@ VirtualPlugin.prototype.addSphero = function(spheroName) {
   sendCommand.call(this, "_addVirtualSphero", spheroName);
 }
 
-VirtualPlugin.prototype.removeSphero = function(spheroName, spheroID) {
+VirtualPlugin.prototype.removeSphero = function(spheroName) {
   sendCommand.call(this, "_removeVirtualSphero", spheroName);
-  this.virtualSpheroNames.splice(spheroID, 1);
+  this.virtualSpheroNames.splice(this.virtualSpheroNames.indexOf(spheroName), 1);
 }
 
 VirtualPlugin.prototype.getNames = function() {
