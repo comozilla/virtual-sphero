@@ -18,7 +18,7 @@ var testKeys = {
   },
   b: function() {
     console.log("add sphero");
-    virtualSphero.addSphero("Sphero" + Math.floor(Math.random() * 10000));
+    virtualSphero.addSphero("Sphero-" + new Date().getTime().toString());
   },
   d: function() {
     console.log("remove sphero");
