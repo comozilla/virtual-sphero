@@ -18,12 +18,13 @@ var testKeys = {
   },
   b: function() {
     console.log("add sphero");
-    virtualSphero.addSphero("Sphero" + Math.floor(Math.random() * 5000));
+    virtualSphero.addSphero("Sphero" + Math.floor(Math.random() * 10000));
   },
   d: function() {
     console.log("remove sphero");
-    var virtualSpheroID = Math.floor(Math.random() * virtualSphero.virtualSpheroNames.length);
-    virtualSphero.removeSphero(virtualSphero.virtualSpheroNames[virtualSpheroID], virtualSpheroID);
+    var spheroNames = virtualSphero.getNames();
+    var virtualSpheroID = Math.floor(Math.random() * spheroNames.length);
+    virtualSphero.removeSphero(spheroNames[virtualSpheroID], virtualSpheroID);
   },
   g: function() {
     console.log("get sphero names " + virtualSphero.getNames());
