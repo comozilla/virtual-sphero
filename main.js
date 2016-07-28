@@ -8,6 +8,7 @@ function VirtualPlugin(wsPort, allowedOrigin) {
   this.directory = __dirname + "/virtual";
   this.wsPort = wsPort;
   this.connections = [];
+  this.virtualSpheroNames = [];
 
   this.httpServer = http.createServer((request, response) => {
     url = request.url === "/" ? "/index.html" : request.url;
