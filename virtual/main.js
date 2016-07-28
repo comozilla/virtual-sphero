@@ -39,6 +39,9 @@ var VirtualSpheroController = (function() {
           case "_addVirtualSphero":
             this.addVirtualSphero(data.arguments);
             break;
+          case "_removeVirtualSphero":
+            this.removeVirtualSphero(data.arguments);
+            break;
           }
         } else if(commands.indexOf(data.command) !== -1) {
         Object.keys(this.virtualSpheros).forEach(virtualSpheroName => {
@@ -73,7 +76,7 @@ var VirtualSpheroController = (function() {
           var dx = Math.abs(movedVirtualSpheroX - movedTargetSpheroX);
           var dy = Math.abs(movedVirtualSpheroY - movedTargetSpheroY);
           if (Math.sqrt(dx * dx + dy * dy) <= virtualSphero.radius * 2) {
-            var collsionRadian = 
+            var collsionRadian =
               Math.atan2(movedTargetSpheroY - movedVirtualSpheroY, movedTargetSpheroX - movedVirtualSpheroX) * 180 / Math.PI;
             var moveRadian = Math.atan2(virtualSphero.ey, virtualSphero.ex) * 180 / Math.PI;
             return Math.abs(collsionRadian - moveRadian) <= 10;
@@ -103,6 +106,12 @@ var VirtualSpheroController = (function() {
 
   VirtualSpheroController.prototype.addVirtualSphero = function(spheroName) {
     this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
+  };
+
+  VirtualSpheroController.prototype.removeVirtualSphero = function(spheroName) {
+    if (typeof this.virtualSpheros[spheroName] !== "undefined") {
+      delete this.virtualSpheros[spheroName];
+    }
   };
 
   var commands = [

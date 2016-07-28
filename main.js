@@ -8,6 +8,7 @@ function VirtualPlugin(wsPort, allowedOrigin) {
   this.directory = __dirname + "/virtual";
   this.wsPort = wsPort;
   this.connections = [];
+  this.virtualSpheroNames = [];
 
   this.httpServer = http.createServer((request, response) => {
     url = request.url === "/" ? "/index.html" : request.url;
@@ -73,7 +74,20 @@ VirtualPlugin.prototype.command = function(commandName, args) {
 };
 
 VirtualPlugin.prototype.addSphero = function(spheroName) {
+  if (this.virtualSpheroNames.indexOf(spheroName) !== -1) {
+    return;
+  }
+  this.virtualSpheroNames.push(spheroName);
   sendCommand.call(this, "_addVirtualSphero", spheroName);
+}
+
+VirtualPlugin.prototype.removeSphero = function(spheroName) {
+  sendCommand.call(this, "_removeVirtualSphero", spheroName);
+  this.virtualSpheroNames.splice(this.virtualSpheroNames.indexOf(spheroName), 1);
+}
+
+VirtualPlugin.prototype.getNames = function() {
+  return this.virtualSpheroNames;
 }
 
 function originIsAllowed(allowedOrigin, origin) {

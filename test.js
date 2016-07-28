@@ -18,7 +18,15 @@ var testKeys = {
   },
   b: function() {
     console.log("add sphero");
-    virtualSphero.addSphero("Sphero" + Math.floor(Math.random() * 500));
+    virtualSphero.addSphero("Sphero" + new Date().getTime().toString());
+  },
+  d: function() {
+    console.log("remove sphero");
+    var spheroNames = virtualSphero.getNames();
+    virtualSphero.removeSphero(spheroNames[Math.floor(Math.random() * spheroNames.length)]);
+  },
+  g: function() {
+    console.log("get sphero names " + virtualSphero.getNames());
   }
 }
 
