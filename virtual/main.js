@@ -109,7 +109,9 @@ var VirtualSpheroController = (function() {
   };
 
   VirtualSpheroController.prototype.removeVirtualSphero = function(spheroName) {
-    delete this.virtualSpheros[spheroName];
+    if (typeof this.virtualSpheros[spheroName] !== "undefined") {
+      delete this.virtualSpheros[spheroName];
+    }
   };
 
   var commands = [

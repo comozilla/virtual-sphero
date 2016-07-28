@@ -2,6 +2,7 @@ var keypress = require('keypress');
 var VirtualSphero = require("./main");
 
 var virtualSphero = new VirtualSphero(8081, "*");
+var virtualSpheros = [];
 
 // キーにテストする内容を割り当てる
 var testKeys = {
@@ -17,12 +18,16 @@ var testKeys = {
     virtualSphero.command("color", [randomColors[Math.floor(Math.random() * randomColors.length)]]);
   },
   b: function() {
-    console.log("add sphero");
-    virtualSphero.addSphero("Sphero1");// + Math.floor(Math.random() * 500));
+    var virtualSpheroID = ("Sphero" + Math.floor(Math.random() * 5000));
+    console.log("add sphero " + virtualSpheroID);
+    virtualSpheros.push(virtualSpheroID);
+    virtualSphero.addSphero(virtualSpheroID);
   },
   d: function() {
-    console.log("remove sohero");
-    virtualSphero.removeSphero("Sphero1");
+    var virtualSpheroID = Math.floor(Math.random() * virtualSpheros.length);
+    console.log("remove sphero " + virtualSpheroID + " spheros" + virtualSpheros);
+    virtualSpheros.splice(virtualSpheroID, 1);
+    virtualSphero.removeSphero(virtualSpheros[virtualSpheroID]);
   }
 }
 
