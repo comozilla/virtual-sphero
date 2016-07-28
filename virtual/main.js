@@ -39,6 +39,9 @@ var VirtualSpheroController = (function() {
           case "_addVirtualSphero":
             this.addVirtualSphero(data.arguments);
             break;
+          case "_removeVirtualSphero":
+            this.removeVirtualSphero(data.arguments);
+            break;            
           }
         } else if(commands.indexOf(data.command) !== -1) {
         Object.keys(this.virtualSpheros).forEach(virtualSpheroName => {
@@ -103,6 +106,10 @@ var VirtualSpheroController = (function() {
 
   VirtualSpheroController.prototype.addVirtualSphero = function(spheroName) {
     this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
+  };
+
+  VirtualSpheroController.prototype.removeVirtualSphero = function(spheroName) {
+    delete this.virtualSpheros[spheroName];
   };
 
   var commands = [

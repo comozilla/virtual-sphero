@@ -76,6 +76,10 @@ VirtualPlugin.prototype.addSphero = function(spheroName) {
   sendCommand.call(this, "_addVirtualSphero", spheroName);
 }
 
+VirtualPlugin.prototype.removeSphero = function(spheroName) {
+  sendCommand.call(this, "_removeVirtualSphero", spheroName);
+}
+
 function originIsAllowed(allowedOrigin, origin) {
   if (allowedOrigin == null || allowedOrigin === "*")
     return true;

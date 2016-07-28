@@ -18,7 +18,11 @@ var testKeys = {
   },
   b: function() {
     console.log("add sphero");
-    virtualSphero.addSphero("Sphero" + Math.floor(Math.random() * 500));
+    virtualSphero.addSphero("Sphero1");// + Math.floor(Math.random() * 500));
+  },
+  d: function() {
+    console.log("remove sohero");
+    virtualSphero.removeSphero("Sphero1");
   }
 }
 
