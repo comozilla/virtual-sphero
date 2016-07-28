@@ -69,16 +69,11 @@ VirtualPlugin.prototype.command = function(commandName, args) {
   if (commandName.substring(0, 1) === "_") {
     return;
   }
-  this.connections.forEach(connection => {
-    connection.sendUTF(JSON.stringify({
-      command: commandName,
-      arguments: args
-    }));
-  });
+  sendCommand.call(this, commandName, args);
 };
 
-VirtualPlugin.prototype.addSphero = function() {
-  this.command("_addVirtualSphero", []);
+VirtualPlugin.prototype.addSphero = function(spheroName) {
+  sendCommand.call(this, "_addVirtualSphero", spheroName);
 }
 
 function originIsAllowed(allowedOrigin, origin) {
@@ -93,3 +88,11 @@ function originIsAllowed(allowedOrigin, origin) {
 
 module.exports = VirtualPlugin;
 
+function sendCommand(commandName, args) {
+  this.connections.forEach(connection => {
+    connection.sendUTF(JSON.stringify({
+      command: commandName,
+      arguments: args
+    }));
+  });
+}

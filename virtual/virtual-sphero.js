@@ -1,6 +1,7 @@
-function VirtualSphero(canvas, speedController) {
+function VirtualSphero(canvas, speedController, spheroName) {
   this.speedController = speedController;
   this.canvas = canvas;
+  this.spheroName = spheroName;
 
   this.x = 0;
   this.y = 0;
