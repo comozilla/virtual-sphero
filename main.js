@@ -66,6 +66,9 @@ function VirtualPlugin(wsPort, allowedOrigin) {
 }
 
 VirtualPlugin.prototype.command = function(commandName, args) {
+  if (commandName.substring(0, 1) === "_") {
+    return;
+  }
   this.connections.forEach(connection => {
     connection.sendUTF(JSON.stringify({
       command: commandName,
@@ -73,6 +76,10 @@ VirtualPlugin.prototype.command = function(commandName, args) {
     }));
   });
 };
+
+VirtualPlugin.prototype.addSphero = function() {
+  this.command("_addVirtualSphero", []);
+}
 
 function originIsAllowed(allowedOrigin, origin) {
   if (allowedOrigin == null || allowedOrigin === "*")
