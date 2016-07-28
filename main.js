@@ -66,6 +66,9 @@ function VirtualPlugin(wsPort, allowedOrigin) {
 }
 
 VirtualPlugin.prototype.command = function(commandName, args) {
+  if (commandName.substring(0, 1) === "_") {
+    return;
+  }
   this.connections.forEach(connection => {
     connection.sendUTF(JSON.stringify({
       command: commandName,
