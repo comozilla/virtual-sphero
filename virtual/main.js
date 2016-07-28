@@ -41,7 +41,8 @@ var VirtualSpheroController = (function() {
             break;
           }
         } else if(commands.indexOf(data.command) !== -1) {
-        this.virtualSpheros.forEach(virtualSphero => {
+        Object.keys(this.virtualSpheros).forEach(virtualSphero => {
+          var virtualSphero = this.virtualSpheros[virtualSpheroName];
           if (typeof virtualSphero[data.command] !== "undefined") {
             virtualSphero[data.command].apply(virtualSphero, data.arguments);
           }
@@ -58,8 +59,9 @@ var VirtualSpheroController = (function() {
     var tick = () => {
       this.clearCanvas();
       var moveSphero = [];
-      this.virtualSpheros.forEach((virtualSphero, index) => {
-        var collidedSpheroCount = this.virtualSpheros.filter((targetSphero, targetIndex) => {
+      Object.keys(this.virtualSpheros).forEach((virtualSphero, index) => {
+        var virtualSphero = this.virtualSpheros[virtualSpheroName];
+        var collidedSpheroCount = Object.keys(this.virtualSpheros).filter((targetSphero, targetIndex) => {
           if (targetIndex === index) {
             return false;
           }
@@ -80,7 +82,8 @@ var VirtualSpheroController = (function() {
           moveSphero.push(index);
         }
       });
-      this.virtualSpheros.forEach((virtualSphero, index) => {
+      Object.keys(this.virtualSpheros).forEach((virtualSphero, index) => {
+        var virtualSphero = this.virtualSpheros[virtualSpheroName];
         if (moveSphero.indexOf(index) >= 0) {
           virtualSphero.move();
         }
@@ -89,7 +92,7 @@ var VirtualSpheroController = (function() {
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
-    this.virtualSpheros = [];
+    this.virtualSpheros = {};
     this.addVirtualSphero();
   }
 
@@ -98,7 +101,7 @@ var VirtualSpheroController = (function() {
   };
 
   VirtualSpheroController.prototype.addVirtualSphero = function(spheroName) {
-    this.virtualSpheros.push(new VirtualSphero(this.canvas, this.speedController, spheroName));
+    this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
   };
 
   var commands = [
