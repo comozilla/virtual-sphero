@@ -74,6 +74,10 @@ VirtualPlugin.prototype.command = function(commandName, args) {
   });
 };
 
+VirtualPlugin.prototype.addSphero = function() {
+  this.command("_addVirtualSphero", []);
+}
+
 function originIsAllowed(allowedOrigin, origin) {
   if (allowedOrigin == null || allowedOrigin === "*")
     return true;
