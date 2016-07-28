@@ -41,7 +41,7 @@ var VirtualSpheroController = (function() {
             break;
           }
         } else if(commands.indexOf(data.command) !== -1) {
-        Object.keys(this.virtualSpheros).forEach(virtualSphero => {
+        Object.keys(this.virtualSpheros).forEach(virtualSpheroName => {
           var virtualSphero = this.virtualSpheros[virtualSpheroName];
           if (typeof virtualSphero[data.command] !== "undefined") {
             virtualSphero[data.command].apply(virtualSphero, data.arguments);
@@ -59,9 +59,10 @@ var VirtualSpheroController = (function() {
     var tick = () => {
       this.clearCanvas();
       var moveSphero = [];
-      Object.keys(this.virtualSpheros).forEach((virtualSphero, index) => {
+      Object.keys(this.virtualSpheros).forEach((virtualSpheroName, index) => {
         var virtualSphero = this.virtualSpheros[virtualSpheroName];
-        var collidedSpheroCount = Object.keys(this.virtualSpheros).filter((targetSphero, targetIndex) => {
+        var collidedSpheroCount = Object.keys(this.virtualSpheros).filter((targetSpheroName, targetIndex) => {
+          var targetSphero = this.virtualSpheros[targetSpheroName];
           if (targetIndex === index) {
             return false;
           }
@@ -82,7 +83,7 @@ var VirtualSpheroController = (function() {
           moveSphero.push(index);
         }
       });
-      Object.keys(this.virtualSpheros).forEach((virtualSphero, index) => {
+      Object.keys(this.virtualSpheros).forEach((virtualSpheroName, index) => {
         var virtualSphero = this.virtualSpheros[virtualSpheroName];
         if (moveSphero.indexOf(index) >= 0) {
           virtualSphero.move();
