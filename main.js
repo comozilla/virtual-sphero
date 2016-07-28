@@ -74,6 +74,9 @@ VirtualPlugin.prototype.command = function(commandName, args) {
 };
 
 VirtualPlugin.prototype.addSphero = function(spheroName) {
+  if (this.virtualSpheroNames.indexOf(spheroName) !== -1) {
+    return;
+  }
   this.virtualSpheroNames.push(spheroName);
   sendCommand.call(this, "_addVirtualSphero", spheroName);
 }
