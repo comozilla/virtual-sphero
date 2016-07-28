@@ -17,16 +17,16 @@ var testKeys = {
     virtualSphero.command("color", [randomColors[Math.floor(Math.random() * randomColors.length)]]);
   },
   b: function() {
-    var virtualSpheroID = ("Sphero" + Math.floor(Math.random() * 5000));
-    console.log("add sphero " + virtualSpheroID);
-    virtualSphero.virtualSpheroNames.push(virtualSpheroID);
-    virtualSphero.addSphero(virtualSpheroID);
+    console.log("add sphero");
+    virtualSphero.addSphero("Sphero" + Math.floor(Math.random() * 5000));
   },
   d: function() {
+    console.log("remove sphero");
     var virtualSpheroID = Math.floor(Math.random() * virtualSphero.virtualSpheroNames.length);
-    console.log("remove sphero " + virtualSpheroID);
-    virtualSphero.removeSphero(virtualSphero.virtualSpheroNames[virtualSpheroID]);
-    virtualSphero.virtualSpheroNames.splice(virtualSpheroID, 1);
+    virtualSphero.removeSphero(virtualSphero.virtualSpheroNames[virtualSpheroID], virtualSpheroID);
+  },
+  g: function() {
+    console.log("get sphero names " + virtualSphero.getNames());
   }
 }
 

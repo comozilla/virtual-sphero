@@ -74,11 +74,17 @@ VirtualPlugin.prototype.command = function(commandName, args) {
 };
 
 VirtualPlugin.prototype.addSphero = function(spheroName) {
+  this.virtualSpheroNames.push(spheroName);
   sendCommand.call(this, "_addVirtualSphero", spheroName);
 }
 
-VirtualPlugin.prototype.removeSphero = function(spheroName) {
+VirtualPlugin.prototype.removeSphero = function(spheroName, spheroID) {
   sendCommand.call(this, "_removeVirtualSphero", spheroName);
+  this.virtualSpheroNames.splice(spheroID, 1);
+}
+
+VirtualPlugin.prototype.getNames = function() {
+  return this.virtualSpheroNames;
 }
 
 function originIsAllowed(allowedOrigin, origin) {
