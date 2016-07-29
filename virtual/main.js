@@ -35,8 +35,9 @@ var VirtualSpheroController = (function() {
       Object.keys(this.virtualSpheros).forEach(virtualSpheroName => {
         var virtualSphero = this.virtualSpheros[virtualSpheroName];
         if (commandName === "roll") {
-          var x = Math.cos(args[1] * Math.PI / 180) * 0.1;
-          var y = Math.sin(args[1] * Math.PI / 180) * 0.1;
+          var direction = args[1] - 90;
+          var x = Math.cos(direction * Math.PI / 180) * 0.1;
+          var y = Math.sin(direction * Math.PI / 180) * 0.1;
           Matter.Body.applyForce(virtualSphero, { x: 0, y: 0 }, { x: x, y: y });
         }
         // if (typeof virtualSphero[commandName] !== "undefined") {
@@ -190,3 +191,4 @@ function getParams() {
   });
   return paramsObject;
 }
+
