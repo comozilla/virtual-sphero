@@ -4,15 +4,17 @@
   <meta charset="UTF-8">
   <title></title>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="matter.min.js"></script>
   <script type="text/javascript" src="virtual-sphero.js"></script>
   <script type="text/javascript" src="main.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-  <h1>Virtual Sphero</h1>
-  <canvas id="canvas" width="500" height="500">
-  </canvas>
-  <div id="sphero-controller">
+  <div id="canvas-container"></div>
+  <!-- <h1>Virtual Sphero</h1> -->
+  <!-- <canvas id="canvas" width="500" height="500"> -->
+  <!-- </canvas> -->
+  <div id="sphero-controller" style="display: none">
     speed = speed * <input type="number" id="speed" step="0.01" />
   </div>
 </body>
