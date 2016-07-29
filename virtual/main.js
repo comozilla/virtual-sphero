@@ -97,7 +97,6 @@ var VirtualSpheroController = (function() {
     };
     requestAnimationFrame(tick);
     this.virtualSpheros = {};
-    this.addVirtualSphero();
   }
 
   VirtualSpheroController.prototype.clearCanvas = function() {
@@ -196,10 +195,6 @@ var VirtualSpheroController = (function() {
 
 document.addEventListener("DOMContentLoaded", function() {
   var sphero = new VirtualSpheroController();
-  document.getElementById("add-sphero-button").addEventListener("click", function() {
-    sphero.addVirtualSphero();
-  });
-
   window.addEventListener("resize", function() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
