@@ -64,8 +64,8 @@ function VirtualPlugin(wsPort, allowedOrigin) {
       console.log("[VirtualSphero] " + (new Date()) + " Peer " + connection.remoteAddress + " disconnected.");
     });
 
-    this.virtualSpheroNames.forEach((spheroName) => {
-      sendCommand.call(this, "_addVirtualSphero", spheroName);
+    this.virtualSpheroNames.forEach(spheroName => {
+      this.addSphero(spheroName);
     });
   });
 }
