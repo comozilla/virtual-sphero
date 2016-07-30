@@ -13,6 +13,9 @@ var VirtualSpheroController = (function() {
     return SpeedController;
   })();
   function VirtualSpheroController() {
+    var showParam = getParams().show;
+    console.log(showParam);
+    this.showSpheros = typeof showParam === "undefined" ? [] : showParam.split(",");
     this.socket = io();
     this.ws = new WebSocket("ws://" + location.host);
 
@@ -93,7 +96,9 @@ var VirtualSpheroController = (function() {
   };
 
   VirtualSpheroController.prototype.addVirtualSphero = function(spheroName) {
-    this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
+    if (this.showSpheros.indexOf(spheroName) !== -1) {
+      this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
+    }
   };
 
   VirtualSpheroController.prototype.removeVirtualSphero = function(spheroName) {
@@ -191,3 +196,12 @@ document.addEventListener("DOMContentLoaded", function() {
     virtualSphero.draw();
   });
 });
+
+function getParams() {
+  var paramsObject = {};
+  location.search.substring(1).split("&").forEach(keyValuePair => {
+    var keyAndValue = keyValuePair.split("=");
+    paramsObject[keyAndValue[0]] = keyAndValue[1];
+  });
+  return paramsObject;
+}

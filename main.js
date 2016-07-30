@@ -22,7 +22,9 @@ function VirtualPlugin(wsPort, allowedOrigin) {
   this.io.on("connection", socket => {
     this.sockets.push(socket);
     this.virtualSpheroNames.forEach(spheroName => {
-      this.addSphero(spheroName);
+      this.sockets.forEach(socket => {
+        socket.emit("addVirtualSphero", spheroName);
+      });
     });
   });
 }
