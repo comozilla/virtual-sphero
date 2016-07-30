@@ -13,6 +13,7 @@ var VirtualSpheroController = (function() {
     return SpeedController;
   })();
   function VirtualSpheroController() {
+    this.socket = io();
     this.ws = new WebSocket("ws://" + location.host);
 
     this.ws.onclose = function() {
@@ -24,34 +25,22 @@ var VirtualSpheroController = (function() {
             errorCallback(e);
     };
 
-    this.ws.onmessage = function(message) {
-      console.log(message.data);
-      var data;
-      try {
-        data = JSON.parse(message.data);
-      } catch(e) {
-        console.log(e);
-        return;
-      }
-      if (data.command.substring(0, 1) === "_") {
-        console.log(data.command);
-        switch (data.command) {
-          case "_addVirtualSphero":
-            this.addVirtualSphero(data.arguments);
-            break;
-          case "_removeVirtualSphero":
-            this.removeVirtualSphero(data.arguments);
-            break;
-          }
-        } else if(commands.indexOf(data.command) !== -1) {
-        Object.keys(this.virtualSpheros).forEach(virtualSpheroName => {
-          var virtualSphero = this.virtualSpheros[virtualSpheroName];
-          if (typeof virtualSphero[data.command] !== "undefined") {
-            virtualSphero[data.command].apply(virtualSphero, data.arguments);
-          }
-        });
-      }
-    }.bind(this);
+    this.socket.on("addVirtualSphero", spheroName => {
+      this.addVirtualSphero(spheroName);
+    });
+
+    this.socket.on("removeVirtualSphero", spheroName => {
+      this.removeVirtualSphero(spheroName);
+    });
+
+    this.socket.on("command", (commandName, args) => {
+      Object.keys(this.virtualSpheros).forEach(virtualSpheroName => {
+        var virtualSphero = this.virtualSpheros[virtualSpheroName];
+        if (typeof virtualSphero[commandName] !== "undefined") {
+          virtualSphero[commandName].apply(virtualSphero, args);
+        }
+      });
+    });
 
     this.speedController = new SpeedController();
     this.canvas = document.getElementById("canvas");
