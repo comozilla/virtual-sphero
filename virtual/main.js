@@ -14,19 +14,8 @@ var VirtualSpheroController = (function() {
   })();
   function VirtualSpheroController() {
     var showParam = getParams().show;
-    console.log(showParam);
-    this.showSpheros = typeof showParam === "undefined" ? [] : showParam.split(",");
+    this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
     this.socket = io();
-    this.ws = new WebSocket("ws://" + location.host);
-
-    this.ws.onclose = function() {
-        this.ws = null;
-    }.bind(this);
-
-    this.ws.onerror = function(e) {
-        if (typeof errorCallback === "function")
-            errorCallback(e);
-    };
 
     this.socket.on("addVirtualSphero", spheroName => {
       this.addVirtualSphero(spheroName);
@@ -96,7 +85,7 @@ var VirtualSpheroController = (function() {
   };
 
   VirtualSpheroController.prototype.addVirtualSphero = function(spheroName) {
-    if (this.showSpheros.indexOf(spheroName) !== -1) {
+    if (this.showSpheros === null || this.showSpheros.indexOf(spheroName) !== -1) {
       this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
     }
   };
