@@ -26,8 +26,7 @@ var VirtualSpheroController = (function() {
       this.ground4;
     };
 
-    Grounds.prototype.add = function(width, height, engine) {
-      console.log(width+" "+height);
+    Grounds.prototype.addGrounds = function(width, height, engine) {
       this.ground1 = Bodies.rectangle(width / 2, height + 10, width, 5, { isStatic: true });
       this.ground1.restitution = 0;
       this.ground2 = Bodies.rectangle(-10, height / 2, 5, height, { isStatic: true });
@@ -39,8 +38,8 @@ var VirtualSpheroController = (function() {
       World.add(engine.world, [this.ground1, this.ground2, this.ground3, this.ground4]);
     };
 
-    Grounds.prototype.remove = function(engine) {
-      World.remove(engine.world, [this.ground1, this.ground2, this.ground3, this.ground4].body);
+    Grounds.prototype.removeGrounds = function(engine) {
+      World.remove(engine.world, [this.ground1, this.ground2, this.ground3, this.ground4]);
     };
 
     return Grounds;
@@ -96,8 +95,8 @@ var VirtualSpheroController = (function() {
   }
 
   VirtualSpheroController.prototype.resetGrounds = function() {
-    this.grounds.remove(this.engine);
-    this.grounds.add(this.canvas.width, this.canvas.height, this.engine);
+    this.grounds.removeGrounds(this.engine);
+    this.grounds.addGrounds(this.canvas.width, this.canvas.height, this.engine);
   };
 
   VirtualSpheroController.prototype.clearCanvas = function() {
