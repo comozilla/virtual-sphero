@@ -27,9 +27,9 @@ function VirtualPlugin(wsPort, allowedOrigin) {
   });
 }
 
-VirtualPlugin.prototype.command = function(commandName, args) {
+VirtualPlugin.prototype.command = function(spheroName, commandName, args) {
   this.sockets.forEach(socket => {
-    socket.emit("command", commandName, args);
+    socket.emit("command", spheroName, commandName, args);
   });
 };
 

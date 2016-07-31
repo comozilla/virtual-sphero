@@ -31,13 +31,12 @@ var VirtualSpheroController = (function() {
       this.removeVirtualSphero(spheroName);
     });
 
-    this.socket.on("command", (commandName, args) => {
-      Object.keys(this.virtualSpheros).forEach(virtualSpheroName => {
-        var virtualSphero = this.virtualSpheros[virtualSpheroName];
-        if (typeof virtualSphero[commandName] !== "undefined") {
-          virtualSphero[commandName].apply(virtualSphero, args);
-        }
-      });
+    this.socket.on("command", (spheroName, commandName, args) => {
+      var virtualSphero = this.virtualSpheros[spheroName];
+      if (typeof virtualSphero !== "undefined" &&
+          typeof virtualSphero[commandName] !== "undefined") {
+        virtualSphero[commandName].apply(virtualSphero, args);
+      }
     });
 
     this.speedController = new SpeedController();
