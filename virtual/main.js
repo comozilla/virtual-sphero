@@ -79,12 +79,13 @@ var VirtualSpheroController = (function() {
   VirtualSpheroController.prototype.addVirtualSphero = function(spheroName) {
     if (this.showSpheros === null || this.showSpheros.indexOf(spheroName) !== -1) {
       this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
-      World.add(this.engine.world, [this.virtualSpheros[spheroName].body]);
+      World.add(this.engine.world, this.virtualSpheros[spheroName].body);
     }
   };
 
   VirtualSpheroController.prototype.removeVirtualSphero = function(spheroName) {
     if (typeof this.virtualSpheros[spheroName] !== "undefined") {
+      World.remove(this.engine.world, this.virtualSpheros[spheroName].body);
       delete this.virtualSpheros[spheroName];
     }
   };
