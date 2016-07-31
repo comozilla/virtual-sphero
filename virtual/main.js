@@ -19,6 +19,7 @@ var VirtualSpheroController = (function() {
     return SpeedController;
   })();
   function VirtualSpheroController() {
+<<<<<<< 400798a4460180512b86a4458b95e7fa925c1c16
     var showParam = getParams().show;
     this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
     this.socket = io();
@@ -55,12 +56,61 @@ var VirtualSpheroController = (function() {
     this.ctx = this.canvas.getContext("2d");
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
+=======
+    this.ws = new WebSocket("ws://" + location.host);
+
+    this.ws.onclose = function() {
+        this.ws = null;
+    }.bind(this);
+
+    this.ws.onerror = function(e) {
+        if (typeof errorCallback === "function")
+            errorCallback(e);
+    };
+
+    this.ws.onmessage = function(message) {
+      console.log(message.data);
+      var data;
+      try {
+        data = JSON.parse(message.data);
+      } catch(e) {
+        console.log(e);
+        return;
+      }
+      if (data.command.substring(0, 1) === "_") {
+        console.log(data.command);
+        switch (data.command) {
+          case "_addVirtualSphero":
+            this.addVirtualSphero(data.arguments);
+            break;
+          case "_removeVirtualSphero":
+            this.removeVirtualSphero(data.arguments);
+            break;
+          }
+        } else if(commands.indexOf(data.command) !== -1) {
+        Object.keys(this.virtualSpheros).forEach(virtualSpheroName => {
+          var direction = data.arguments[1] - 90;
+          var y2 = Math.sin(direction * Math.PI / 180) * 0.1;
+          var x2 = Math.cos(direction * Math.PI / 180) * 0.1;
+          console.log(x2, y2);
+          Matter.Body.applyForce(this.virtualSpheros[virtualSpheroName], { x: 0, y: 0}, { x: x2, y: y2 });
+        });
+      }
+    }.bind(this);
+
+    this.engine = Engine.create();
+    this.render = Render.create({
+      element: document.getElementById("canvas-container"),
+      engine: this.engine
+    });
+>>>>>>> 改行コードを修正
 
     var ground1 = Bodies.rectangle(400, 590, 800, 20, { isStatic: true });
     var ground2 = Bodies.rectangle(10, 300, 20, 600, { isStatic: true });
     var ground3 = Bodies.rectangle(400, 10, 800, 20, { isStatic: true });
     var ground4 = Bodies.rectangle(790, 300, 20, 600, { isStatic: true });
 
+<<<<<<< 400798a4460180512b86a4458b95e7fa925c1c16
     World.add(this.engine.world, [ground1, ground2, ground3, ground4]);
     Engine.run(this.engine);
 
@@ -85,6 +135,23 @@ var VirtualSpheroController = (function() {
       });
       World.add(this.engine.world, [this.virtualSpheros[spheroName]]);
     }
+=======
+    this.engine.world.gravity.y = 0;
+
+    World.add(this.engine.world, [ground1, ground2, ground3, ground4]);
+
+    Engine.run(this.engine);
+    Render.run(this.render);
+
+    this.virtualSpheros = {};
+  }
+
+  VirtualSpheroController.prototype.addVirtualSphero = function(spheroName) {
+    this.virtualSpheros[spheroName] = Bodies.circle(400, 400, 30, {
+      friction: 0.1
+    });
+    World.add(this.engine.world, [this.virtualSpheros[spheroName]]);
+>>>>>>> 改行コードを修正
   };
 
   VirtualSpheroController.prototype.removeVirtualSphero = function(spheroName) {
@@ -175,6 +242,7 @@ var VirtualSpheroController = (function() {
 
 document.addEventListener("DOMContentLoaded", function() {
   var sphero = new VirtualSpheroController();
+<<<<<<< 400798a4460180512b86a4458b95e7fa925c1c16
   window.addEventListener("resize", function() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
@@ -192,3 +260,6 @@ function getParams() {
   return paramsObject;
 }
 
+=======
+});
+>>>>>>> 改行コードを修正
