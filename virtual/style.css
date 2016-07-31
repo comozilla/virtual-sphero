@@ -1,0 +1,15 @@
+#sphero-controller {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+}
+body {
+  margin: 0px;
+  overflow: hidden;
+}
+h1 {
+  left: 10px;
+}
+#canvas {
+  border: 1px solid black;
+}
