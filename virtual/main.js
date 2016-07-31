@@ -18,6 +18,34 @@ var VirtualSpheroController = (function() {
     };
     return SpeedController;
   })();
+  var Grounds = (function() {
+    function Grounds() {
+      this.ground1;
+      this.ground2;
+      this.ground3;
+      this.ground4;
+    };
+
+    Grounds.prototype.add = function(width, height, engine) {
+      console.log(width+" "+height);
+      this.ground1 = Bodies.rectangle(width / 2, height + 10, width, 5, { isStatic: true });
+      this.ground1.restitution = 0;
+      this.ground2 = Bodies.rectangle(-10, height / 2, 5, height, { isStatic: true });
+      this.ground2.restitution = 0;
+      this.ground3 = Bodies.rectangle(width / 2, -10, width, 5, { isStatic: true });
+      this.ground3.restitution = 0;
+      this.ground4 = Bodies.rectangle(width + 10, height / 2, 5, height, { isStatic: true });
+      this.ground4.restitution = 0;
+      World.add(engine.world, [this.ground1, this.ground2, this.ground3, this.ground4]);
+    };
+
+    Grounds.prototype.remove = function(engine) {
+      World.remove(engine.world, [this.ground1, this.ground2, this.ground3, this.ground4].body);
+    };
+
+    return Grounds;
+  })();
+
   function VirtualSpheroController() {
     var showParam = getParams().show;
     this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
@@ -47,17 +75,12 @@ var VirtualSpheroController = (function() {
 
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
 
-    var ground1 = Bodies.rectangle(400, 610, 800, 5, { isStatic: true });
-    ground1.restitution = 0;
-    var ground2 = Bodies.rectangle(-10, 300, 5, 600, { isStatic: true });
-    ground2.restitution = 0;
-    var ground3 = Bodies.rectangle(400, -10, 800, 5, { isStatic: true });
-    ground3.restitution = 0;
-    var ground4 = Bodies.rectangle(810, 300, 5, 600, { isStatic: true });
-    ground4.restitution = 0;
+    this.grounds = new Grounds();
+    this.grounds.add(this.canvas.width, this.canvas.height, this.engine);
 
-    World.add(this.engine.world, [ground1, ground2, ground3, ground4]);
     Engine.run(this.engine);
 
     var tick = () => {
@@ -71,6 +94,11 @@ var VirtualSpheroController = (function() {
     requestAnimationFrame(tick);
     this.virtualSpheros = {};
   }
+
+  VirtualSpheroController.prototype.resetGrounds = function() {
+    this.grounds.remove(this.engine);
+    this.grounds.add(this.canvas.width, this.canvas.height, this.engine);
+  };
 
   VirtualSpheroController.prototype.clearCanvas = function() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -172,6 +200,14 @@ var VirtualSpheroController = (function() {
 
 document.addEventListener("DOMContentLoaded", function() {
   var sphero = new VirtualSpheroController();
+
+  window.addEventListener("resize", function() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    this.clearCanvas();
+    this.resetGrounds();
+    virtualSphero.draw();
+  });
 });
 
 function getParams() {
@@ -182,4 +218,3 @@ function getParams() {
   });
   return paramsObject;
 }
-
