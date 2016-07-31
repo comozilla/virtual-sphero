@@ -7,7 +7,7 @@ function VirtualSphero(canvas, speedController, spheroName) {
   this.ey = 0;
   this.radius = 25;
 
-  this.body = Matter.Bodies.circle(400, 400, this.radius, {
+  this.body = Matter.Bodies.circle(0, 0, this.radius, {
     friction: 0.1
   });
   this.body.restitution = 0;

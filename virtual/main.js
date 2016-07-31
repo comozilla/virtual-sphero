@@ -19,14 +19,7 @@ var VirtualSpheroController = (function() {
     return SpeedController;
   })();
   var Grounds = (function() {
-    function Grounds() {
-      this.ground1;
-      this.ground2;
-      this.ground3;
-      this.ground4;
-    };
-
-    Grounds.prototype.addGrounds = function(width, height, engine) {
+    function Grounds(width, height, engine) {
       this.ground1 = Bodies.rectangle(width / 2, height + 10, width, 5, { isStatic: true });
       this.ground1.restitution = 0;
       this.ground2 = Bodies.rectangle(-10, height / 2, 5, height, { isStatic: true });
@@ -77,9 +70,7 @@ var VirtualSpheroController = (function() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
 
-    this.grounds = new Grounds();
-    this.grounds.addGrounds(this.canvas.width, this.canvas.height, this.engine);
-
+    this.grounds = new Grounds(this.canvas.width, this.canvas.height, this.engine);
     Engine.run(this.engine);
 
     var tick = () => {
@@ -96,7 +87,7 @@ var VirtualSpheroController = (function() {
 
   VirtualSpheroController.prototype.resetGrounds = function() {
     this.grounds.removeGrounds(this.engine);
-    this.grounds.addGrounds(this.canvas.width, this.canvas.height, this.engine);
+    this.grounds = new Grounds(this.canvas.width, this.canvas.height, this.engine);
   };
 
   VirtualSpheroController.prototype.clearCanvas = function() {
@@ -205,7 +196,6 @@ document.addEventListener("DOMContentLoaded", function() {
     this.canvas.height = window.innerHeight;
     sphero.clearCanvas();
     sphero.resetGrounds();
-    virtualSphero.draw();
   });
 });
 
