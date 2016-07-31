@@ -78,7 +78,7 @@ var VirtualSpheroController = (function() {
     this.canvas.height = window.innerHeight;
 
     this.grounds = new Grounds();
-    this.grounds.add(this.canvas.width, this.canvas.height, this.engine);
+    this.grounds.addGrounds(this.canvas.width, this.canvas.height, this.engine);
 
     Engine.run(this.engine);
 
