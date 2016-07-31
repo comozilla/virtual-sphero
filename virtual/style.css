@@ -8,6 +8,8 @@ body {
   overflow: hidden;
 }
 h1 {
-  position: fixed;
   left: 10px;
+}
+#canvas {
+  border: 1px solid black;
 }
