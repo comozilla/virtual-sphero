@@ -203,8 +203,8 @@ document.addEventListener("DOMContentLoaded", function() {
   window.addEventListener("resize", function() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
-    this.clearCanvas();
-    this.resetGrounds();
+    sphero.clearCanvas();
+    sphero.resetGrounds();
     virtualSphero.draw();
   });
 });
