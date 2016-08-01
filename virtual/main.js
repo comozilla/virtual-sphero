@@ -60,13 +60,15 @@ var VirtualSpheroController = (function() {
         World.add(this.engine.world, wall);
         this.walls[wallType] = {
           body: wall,
-          defaultWidth: rect.width,
-          defaultHeight: rect.height
+          width: rect.width,
+          height: rect.height
         };
       } else {
         var wall = this.walls[wallType];
         Body.setPosition(wall.body, { x: rect.x, y: rect.y });
-        Body.scale(wall.body, rect.width / wall.defaultWidth, rect.height / wall.defaultHeight);
+        Body.scale(wall.body, rect.width / wall.width, rect.height / wall.height);
+        wall.width = rect.width;
+        wall.height = rect.height;
       }
     }
 
