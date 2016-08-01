@@ -30,7 +30,7 @@ var testKeys = {
   },
   z: function() {
     console.log("rotate sphero");
-    virtualSphero.command("rotate", [Math.floor(Math.random() * 361)]);
+    virtualSphero.command("roll", [0, Math.floor(Math.random() * 361)]);
   }
 }
 
