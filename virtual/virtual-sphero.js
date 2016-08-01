@@ -28,13 +28,14 @@ function VirtualSphero(canvas, speedController, spheroName) {
 }
 
 VirtualSphero.prototype.roll = function(far, degree) {
-  var direction = (degree + (270 + this.direction)) % 360;
+  this.rotate(degree);
+  var direction = (degree + 270) % 360;
   this.ex = Math.cos(direction * Math.PI / 180) * far * 0.1;
   this.ey = Math.sin(direction * Math.PI / 180) * far * 0.1;
 };
 
-VirtualSphero.prototype.rotate = function(direction) {
-  this.direction = direction;
+VirtualSphero.prototype.rotate = function(degree) {
+  this.direction = degree;
 };
 
 VirtualSphero.prototype.color = function(color) {
