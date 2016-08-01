@@ -21,6 +21,7 @@ var VirtualSpheroController = (function() {
   var Grounds = (function() {
     function Grounds(width, height, engine) {
       this.engine = engine;
+      this.walls = {};
       this.setSize(width, height);
     };
 
@@ -52,15 +53,20 @@ var VirtualSpheroController = (function() {
 
     function refreshWall(wallType) {
       var rect = getRect.call(this, wallType);
-      var wall = this["ground" + wallType.charAt(0).toUpperCase() + wallType.slice(1)];
-      if (typeof wall === "undefined") {
-        wall = Bodies.rectangle(rect.x, rect.y, rect.width, rect.height, { isStatic: true });
+      var wallName = "ground" + wallType.charAt(0).toUpperCase() + wallType.slice(1);
+      if (typeof this.walls[wallType] === "undefined") {
+        var wall = Bodies.rectangle(rect.x, rect.y, rect.width, rect.height, { isStatic: true });
         wall.restitution = 0;
         World.add(this.engine.world, wall);
-        this["ground" + wallType.charAt(0).toUpperCase() + wallType.slice(1)] = wall;
+        this.walls[wallType] = {
+          body: wall,
+          defaultWidth: rect.width,
+          defaultHeight: rect.height
+        };
       } else {
-        console.log("fuga");
-        Body.setPosition(wall, { x: rect.x, y: rect.y });
+        var wall = this.walls[wallType];
+        Body.setPosition(wall.body, { x: rect.x, y: rect.y });
+        Body.scale(wall.body, rect.width / wall.defaultWidth, rect.height / wall.defaultHeight);
       }
     }
 
