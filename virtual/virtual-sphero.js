@@ -80,3 +80,25 @@ VirtualSphero.prototype.fixPosition = function () {
   this.x = Math.min(this.x, this.canvas.width - 50);
   this.y = Math.min(this.y, this.canvas.height - 50);
 };
+
+VirtualSphero.prototype.setPosition = function(positionX, positionY) {
+  Matter.Body.setPosition(this.body, {
+    x: positionX,
+    y: positionY
+  });
+};
+
+VirtualSphero.prototype.fixMove = function() {
+  if (this.body.position.x > this.canvas.width - 50) {
+    this.setPosition(this.canvas.width - 50, this.body.position.y);
+  }
+  if (this.body.position.x < 0) {
+    this.setPosition(1, this.body.position.y);
+  }
+  if (this.body.position.y > this.canvas.height - 50) {
+    this.setPosition(this.body.position.x, this.canvas.height - 50);
+  }
+  if (this.body.position.y < 0) {
+    this.setPosition(this.body.position.x, 1);
+  }
+};

@@ -143,6 +143,12 @@ var VirtualSpheroController = (function() {
     }
   };
 
+  VirtualSpheroController.prototype.fixSpherosPosition = function() {
+    Object.keys(this.virtualSpheros).forEach(spheroName => {
+      this.virtualSpheros[spheroName].fixMove();
+    });
+  };
+
   var commands = [
     /* sphero.js */
     "setHeading",
@@ -231,6 +237,7 @@ document.addEventListener("DOMContentLoaded", function() {
     this.canvas.height = window.innerHeight;
     sphero.clearCanvas();
     sphero.resetGrounds();
+    sphero.fixSpherosPosition();
   });
 });
 
