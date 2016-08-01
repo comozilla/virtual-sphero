@@ -27,6 +27,10 @@ var testKeys = {
   },
   g: function() {
     console.log("get sphero names " + virtualSphero.getNames());
+  },
+  z: function() {
+    console.log("rotate sphero");
+    virtualSphero.command("roll", [0, Math.floor(Math.random() * 361)]);
   }
 }
 

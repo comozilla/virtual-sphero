@@ -6,8 +6,9 @@ function VirtualSphero(canvas, speedController, spheroName) {
   this.ex = 0;
   this.ey = 0;
   this.radius = 25;
+  this.direction = 0;
 
-  this.body = Matter.Bodies.circle(400, 400, this.radius, {
+  this.body = Matter.Bodies.circle(0, 0, this.radius, {
     friction: 0.1
   });
   this.body.restitution = 0;
@@ -27,9 +28,14 @@ function VirtualSphero(canvas, speedController, spheroName) {
 }
 
 VirtualSphero.prototype.roll = function(far, degree) {
+  this.rotate(degree);
   var direction = (degree + 270) % 360;
   this.ex = Math.cos(direction * Math.PI / 180) * far * 0.1;
   this.ey = Math.sin(direction * Math.PI / 180) * far * 0.1;
+};
+
+VirtualSphero.prototype.rotate = function(degree) {
+  this.direction = degree;
 };
 
 VirtualSphero.prototype.color = function(color) {
@@ -59,7 +65,12 @@ VirtualSphero.prototype.draw = function() {
   this.ctx.fill();
   this.ctx.stroke();
 
-  this.ctx.drawImage(this.logo, this.body.position.x - 18, this.body.position.y - 18, 30, 30);
+  var rad = this.direction * Math.PI / 180;
+  this.ctx.save();
+  this.ctx.setTransform(Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), this.body.position.x, this.body.position.y);
+  this.ctx.translate(-1 * this.radius + 10, -1 * this.radius + 10);
+  this.ctx.drawImage(this.logo, 0, 0, 30, 30);
+  this.ctx.restore();
 };
 
 VirtualSphero.prototype.fixPosition = function () {
