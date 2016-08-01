@@ -35,6 +35,13 @@ var VirtualSpheroController = (function() {
       World.remove(engine.world, [this.ground1, this.ground2, this.ground3, this.ground4]);
     };
 
+    Grounds.prototype.resetWalls = function(width, height) {
+      Body.setPosition(this.ground1, { x:width / 2, y:height + 10 });
+      Body.setPosition(this.ground2, { x:-10, y:height / 2 });
+      Body.setPosition(this.ground3, { x:width / 2, y:-10 });
+      Body.setPosition(this.ground4, { x:width + 10, y:height / 2 });
+    };
+
     return Grounds;
   })();
 
@@ -85,8 +92,9 @@ var VirtualSpheroController = (function() {
   }
 
   VirtualSpheroController.prototype.resetGrounds = function() {
-    this.grounds.removeGrounds(this.engine);
-    this.grounds = new Grounds(this.canvas.width, this.canvas.height, this.engine);
+    //this.grounds.removeGrounds(this.engine);
+    //this.grounds = new Grounds(this.canvas.width, this.canvas.height, this.engine);
+    this.grounds.resetWalls(this.canvas.width, this.canvas.height);
   };
 
   VirtualSpheroController.prototype.clearCanvas = function() {
