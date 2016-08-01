@@ -20,27 +20,49 @@ var VirtualSpheroController = (function() {
   })();
   var Grounds = (function() {
     function Grounds(width, height, engine) {
-      this.ground1 = Bodies.rectangle(width / 2, height + 10, width, 5, { isStatic: true });
-      this.ground1.restitution = 0;
-      this.ground2 = Bodies.rectangle(-10, height / 2, 5, height, { isStatic: true });
-      this.ground2.restitution = 0;
-      this.ground3 = Bodies.rectangle(width / 2, -10, width, 5, { isStatic: true });
-      this.ground3.restitution = 0;
-      this.ground4 = Bodies.rectangle(width + 10, height / 2, 5, height, { isStatic: true });
-      this.ground4.restitution = 0;
-      World.add(engine.world, [this.ground1, this.ground2, this.ground3, this.ground4]);
+      this.engine = engine;
+      this.setSize(width, height);
     };
 
-    Grounds.prototype.removeGrounds = function(engine) {
-      World.remove(engine.world, [this.ground1, this.ground2, this.ground3, this.ground4]);
+    Grounds.prototype.refreshWalls = function() {
+      ["top", "right", "bottom", "left"].forEach(wallType => {
+        refreshWall.call(this, wallType);
+      });
     };
 
-    Grounds.prototype.resetWalls = function(width, height) {
-      Body.setPosition(this.ground1, { x:width / 2, y:height + 10 });
-      Body.setPosition(this.ground2, { x:-10, y:height / 2 });
-      Body.setPosition(this.ground3, { x:width / 2, y:-10 });
-      Body.setPosition(this.ground4, { x:width + 10, y:height / 2 });
+    Grounds.prototype.setSize = function(width, height) {
+      this.width = width;
+      this.height = height;
+      this.refreshWalls();
     };
+
+    function getRect(groundType) {
+      var thickness = 100;
+      var positions = {
+        top: { x: this.width / 2, y: -(thickness / 2), width: this.width, height: thickness },
+        right: { x: this.width + thickness / 2, y : this.height / 2, width: thickness, height: this.height },
+        bottom: { x: this.width / 2, y: this.height + thickness / 2, width: this.width, height: thickness },
+        left: { x: -(thickness / 2), y: this.height / 2, width: thickness, height: this.height }
+      };
+      if (typeof positions[groundType] === "undefined") {
+        throw new Error("groundTypeが正しくありません。");
+      }
+      return positions[groundType];
+    };
+
+    function refreshWall(wallType) {
+      var rect = getRect.call(this, wallType);
+      var wall = this["ground" + wallType.charAt(0).toUpperCase() + wallType.slice(1)];
+      if (typeof wall === "undefined") {
+        wall = Bodies.rectangle(rect.x, rect.y, rect.width, rect.height, { isStatic: true });
+        wall.restitution = 0;
+        World.add(this.engine.world, wall);
+        this["ground" + wallType.charAt(0).toUpperCase() + wallType.slice(1)] = wall;
+      } else {
+        console.log("fuga");
+        Body.setPosition(wall, { x: rect.x, y: rect.y });
+      }
+    }
 
     return Grounds;
   })();
@@ -92,9 +114,7 @@ var VirtualSpheroController = (function() {
   }
 
   VirtualSpheroController.prototype.resetGrounds = function() {
-    //this.grounds.removeGrounds(this.engine);
-    //this.grounds = new Grounds(this.canvas.width, this.canvas.height, this.engine);
-    this.grounds.resetWalls(this.canvas.width, this.canvas.height);
+    this.grounds.setSize(this.canvas.width, this.canvas.height);
   };
 
   VirtualSpheroController.prototype.clearCanvas = function() {
