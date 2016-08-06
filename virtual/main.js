@@ -145,7 +145,7 @@ var VirtualSpheroController = (function() {
 
   VirtualSpheroController.prototype.fixSpherosPosition = function() {
     Object.keys(this.virtualSpheros).forEach(spheroName => {
-      this.virtualSpheros[spheroName].fixMove();
+      this.virtualSpheros[spheroName].moveToScreen();
     });
   };
 

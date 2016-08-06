@@ -88,7 +88,7 @@ VirtualSphero.prototype.setPosition = function(positionX, positionY) {
   });
 };
 
-VirtualSphero.prototype.fixMove = function() {
+VirtualSphero.prototype.moveToScreen = function() {
   if (this.body.position.x > this.canvas.width - 50) {
     this.setPosition(this.canvas.width - 50, this.body.position.y);
   }
