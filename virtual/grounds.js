@@ -1,22 +1,24 @@
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
-function Grounds(width, height, engine) {
+export default class Grounds {
+  constructor(width, height, engine) {
   this.engine = engine;
   this.walls = {};
   this.setSize(width, height);
-};
+  }
 
-Grounds.prototype.refreshWalls = function() {
-  ["top", "right", "bottom", "left"].forEach(wallType => {
-    refreshWall.call(this, wallType);
-  });
-};
+  refreshWalls() {
+    ["top", "right", "bottom", "left"].forEach(wallType => {
+      refreshWall.call(this, wallType);
+    });
+  }
 
-Grounds.prototype.setSize = function(width, height) {
-  this.width = width;
-  this.height = height;
-  this.refreshWalls();
-};
+  setSize(width, height) {
+    this.width = width;
+    this.height = height;
+    this.refreshWalls();
+  }
+}
 
 function getRect(groundType) {
   const thickness = 100;
@@ -30,7 +32,7 @@ function getRect(groundType) {
     throw new Error("groundTypeが正しくありません。");
   }
   return positions[groundType];
-};
+}
 
 function refreshWall(wallType) {
   const rect = getRect.call(this, wallType);
@@ -52,5 +54,3 @@ function refreshWall(wallType) {
     wall.height = rect.height;
   }
 }
-
-export default Grounds;
