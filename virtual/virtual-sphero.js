@@ -8,7 +8,7 @@ function VirtualSphero(canvas, speedController, spheroName) {
   this.radius = 25;
   this.direction = 0;
 
-  this.body = Matter.Bodies.circle(0, 0, this.radius, {
+  this.body = Matter.Bodies.circle(1, 1, this.radius, {
     friction: 0.1
   });
   this.body.restitution = 0;
@@ -79,4 +79,26 @@ VirtualSphero.prototype.fixPosition = function () {
 
   this.x = Math.min(this.x, this.canvas.width - 50);
   this.y = Math.min(this.y, this.canvas.height - 50);
+};
+
+VirtualSphero.prototype.setPosition = function(positionX, positionY) {
+  Matter.Body.setPosition(this.body, {
+    x: positionX,
+    y: positionY
+  });
+};
+
+VirtualSphero.prototype.moveToScreen = function() {
+  if (this.body.position.x > this.canvas.width - 50) {
+    this.setPosition(this.canvas.width - 50, this.body.position.y);
+  }
+  if (this.body.position.x < 0) {
+    this.setPosition(1, this.body.position.y);
+  }
+  if (this.body.position.y > this.canvas.height - 50) {
+    this.setPosition(this.body.position.x, this.canvas.height - 50);
+  }
+  if (this.body.position.y < 0) {
+    this.setPosition(this.body.position.x, 1);
+  }
 };

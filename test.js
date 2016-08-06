@@ -14,7 +14,7 @@ var testKeys = {
   a: function() {
     console.log("set random color");
     var randomColors = ["red", "blue", "yellow", "green", "purple", "orange"];
-    virtualSphero.command("color", [randomColors[Math.floor(Math.random() * randomColors.length)]]);
+    commandAll("color", [randomColors[Math.floor(Math.random() * randomColors.length)]]);
   },
   b: function() {
     console.log("add sphero");
@@ -30,7 +30,7 @@ var testKeys = {
   },
   z: function() {
     console.log("rotate sphero");
-    virtualSphero.command("roll", [0, Math.floor(Math.random() * 361)]);
+    commandAll("roll", [0, Math.floor(Math.random() * 361)]);
   }
 }
 
@@ -41,9 +41,7 @@ process.stdin.on('keypress', function (ch, key) {
     if (Array.isArray(testKeys[key.name])) {
       var args = testKeys[key.name];
       console.log("orb." + args[0] + "(" + args.slice(1).map(arg => "\"" + arg + "\"").join(", ") + ");");
-      virtualSphero.virtualSpheroNames.forEach(spheroName => {
-        virtualSphero.command(spheroName, args[0], args.slice(1));
-      });
+      commandAll(args[0], args.slice(1));
     } else if (typeof testKeys[key.name] === "function") {
       console.log(key.name + " is assigned to custom function");
       testKeys[key.name]();
@@ -54,6 +52,12 @@ process.stdin.on('keypress', function (ch, key) {
     console.log('got "keypress"', key);
   }
 });
+
+function commandAll(commandName, args) {
+  virtualSphero.virtualSpheroNames.forEach(spheroName => {
+    virtualSphero.command(spheroName, commandName, args);
+  });
+}
 
 process.stdin.setRawMode(true);
 process.stdin.resume();
