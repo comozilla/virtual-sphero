@@ -19,8 +19,8 @@ Grounds.prototype.setSize = function(width, height) {
 };
 
 function getRect(groundType) {
-  var thickness = 100;
-  var positions = {
+  const thickness = 100;
+  const positions = {
     top: { x: this.width / 2, y: -(thickness / 2), width: this.width, height: thickness },
     right: { x: this.width + thickness / 2, y : this.height / 2, width: thickness, height: this.height },
     bottom: { x: this.width / 2, y: this.height + thickness / 2, width: this.width, height: thickness },
@@ -33,10 +33,10 @@ function getRect(groundType) {
 };
 
 function refreshWall(wallType) {
-  var rect = getRect.call(this, wallType);
-  var wallName = "ground" + wallType.charAt(0).toUpperCase() + wallType.slice(1);
+  const rect = getRect.call(this, wallType);
+  const wallName = "ground" + wallType.charAt(0).toUpperCase() + wallType.slice(1);
   if (typeof this.walls[wallType] === "undefined") {
-    var wall = Bodies.rectangle(rect.x, rect.y, rect.width, rect.height, { isStatic: true });
+    const wall = Bodies.rectangle(rect.x, rect.y, rect.width, rect.height, { isStatic: true });
     wall.restitution = 0;
     World.add(this.engine.world, wall);
     this.walls[wallType] = {
@@ -45,7 +45,7 @@ function refreshWall(wallType) {
       height: rect.height
     };
   } else {
-    var wall = this.walls[wallType];
+    const wall = this.walls[wallType];
     Body.setPosition(wall.body, { x: rect.x, y: rect.y });
     Body.scale(wall.body, rect.width / wall.width, rect.height / wall.height);
     wall.width = rect.width;

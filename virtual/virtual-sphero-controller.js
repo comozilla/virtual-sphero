@@ -4,7 +4,7 @@ import Grounds from "./grounds";
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
 function VirtualSpheroController() {
-  var showParam = getParams().show;
+  const showParam = getParams().show;
   this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
   this.socket = io();
 
@@ -17,7 +17,7 @@ function VirtualSpheroController() {
   });
 
   this.socket.on("command", (spheroName, commandName, args) => {
-    var virtualSphero = this.virtualSpheros[spheroName];
+    const virtualSphero = this.virtualSpheros[spheroName];
     if (typeof virtualSphero !== "undefined" &&
         typeof virtualSphero[commandName] !== "undefined") {
       virtualSphero[commandName].apply(virtualSphero, args);
@@ -37,7 +37,7 @@ function VirtualSpheroController() {
   this.grounds = new Grounds(this.canvas.width, this.canvas.height, this.engine);
   Engine.run(this.engine);
 
-  var tick = () => {
+  const tick = () => {
     this.clearCanvas();
     Object.keys(this.virtualSpheros).forEach(spheroName => {
       this.virtualSpheros[spheroName].move();
@@ -77,7 +77,7 @@ VirtualSpheroController.prototype.fixSpherosPosition = function() {
   });
 };
 
-var commands = [
+const commands = [
   /* sphero.js */
   "setHeading",
   "setStabilization",
@@ -156,9 +156,9 @@ var commands = [
 ];
 
 function getParams() {
-  var paramsObject = {};
+  const paramsObject = {};
   location.search.substring(1).split("&").forEach(keyValuePair => {
-    var keyAndValue = keyValuePair.split("=");
+    const keyAndValue = keyValuePair.split("=");
     paramsObject[keyAndValue[0]] = keyAndValue[1];
   });
   return paramsObject;

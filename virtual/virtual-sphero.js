@@ -31,7 +31,7 @@ function VirtualSphero(canvas, speedController, spheroName) {
 
 VirtualSphero.prototype.roll = function(far, degree) {
   this.rotate(degree);
-  var direction = (degree + 270) % 360;
+  const direction = (degree + 270) % 360;
   this.ex = Math.cos(direction * Math.PI / 180) * far * 0.1;
   this.ey = Math.sin(direction * Math.PI / 180) * far * 0.1;
 };
@@ -67,7 +67,7 @@ VirtualSphero.prototype.draw = function() {
   this.ctx.fill();
   this.ctx.stroke();
 
-  var rad = this.direction * Math.PI / 180;
+  const rad = this.direction * Math.PI / 180;
   this.ctx.save();
   this.ctx.setTransform(Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), this.body.position.x, this.body.position.y);
   this.ctx.translate(-1 * this.radius + 10, -1 * this.radius + 10);
