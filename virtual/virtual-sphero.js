@@ -102,3 +102,5 @@ VirtualSphero.prototype.moveToScreen = function() {
     this.setPosition(this.body.position.x, 1);
   }
 };
+
+module.exports = VirtualSphero;
