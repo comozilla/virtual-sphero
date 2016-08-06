@@ -1,3 +1,5 @@
+import Matter from "matter-js";
+
 function VirtualSphero(canvas, speedController, spheroName) {
   this.speedController = speedController;
   this.canvas = canvas;

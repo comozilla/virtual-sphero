@@ -19,5 +19,12 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  resolve: {
+    modulesDirectories: ["web_modules", "node_modules", "bower_components"]
+  },
+  plugins: [new webpack.ResolverPlugin(
+    new webpack.ResolverPlugin
+      .DirectoryDescriptionFilePlugin("package.json", ["main"])
+  )]
 };

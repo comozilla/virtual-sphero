@@ -1,8 +1,4 @@
-var Engine = Matter.Engine,
-    Render = Matter.Render,
-    World = Matter.World,
-    Body = Matter.Body,
-    Bodies = Matter.Bodies;
+import { Engine, Render, World, Body, Bodies } from "matter-js";
 
 function Grounds(width, height, engine) {
   this.engine = engine;

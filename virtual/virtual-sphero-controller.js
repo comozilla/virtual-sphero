@@ -1,12 +1,7 @@
 import VirtualSphero from "./virtual-sphero";
 import SpeedController from "./speed-controller";
 import Grounds from "./grounds";
-
-var Engine = Matter.Engine,
-    Render = Matter.Render,
-    World = Matter.World,
-    Body = Matter.Body,
-    Bodies = Matter.Bodies;
+import { Engine, Render, World, Body, Bodies } from "matter-js";
 
 function VirtualSpheroController() {
   var showParam = getParams().show;
