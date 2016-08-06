@@ -103,4 +103,4 @@ VirtualSphero.prototype.moveToScreen = function() {
   }
 };
 
-module.exports = VirtualSphero;
+export default VirtualSphero;

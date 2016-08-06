@@ -1,4 +1,4 @@
-var VirtualSphero = require("./virtual-sphero");
+import VirtualSphero from "./virtual-sphero";
 
 var Engine = Matter.Engine,
     Render = Matter.Render,
