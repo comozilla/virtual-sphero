@@ -36,7 +36,7 @@ function getRect(groundType) {
 
 function refreshWall(wallType) {
   const rect = getRect.call(this, wallType);
-  const wallName = "ground" + wallType.charAt(0).toUpperCase() + wallType.slice(1);
+  const wallName = `ground${wallType.charAt(0).toUpperCase()}${wallType.slice(1)}`;
   if (typeof this.walls[wallType] === "undefined") {
     const wall = Bodies.rectangle(rect.x, rect.y, rect.width, rect.height, { isStatic: true });
     wall.restitution = 0;

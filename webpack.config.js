@@ -2,10 +2,10 @@ const webpack = require("webpack");
 
 module.exports = {
   cache: true,
-  entry: "./virtual/main.js",
+  entry: "./virtual/js/main.js",
   output: {
     path: __dirname,
-    filename: "./virtual/build/bundle.js"
+    filename: "./virtual/js/build/bundle.js"
   },
   module: {
     loaders: [
@@ -19,11 +19,12 @@ module.exports = {
         }
       },
       { test: /\.css$/, loader: "style-loader!css-loader" },
-      { test: /\.(jpg|png)$/, loaders: 'url-loader' }
+      { test: /\.(jpg|png)$/, loaders: "url-loader" }
     ]
   },
   resolve: {
-    modulesDirectories: ["web_modules", "node_modules", "bower_components"]
+    modulesDirectories: ["web_modules", "node_modules", "bower_components", "alias"],
+    alias: { "matter-js": "matter-js/build/matter.min" }
   },
   plugins: [new webpack.ResolverPlugin(
     new webpack.ResolverPlugin
