@@ -23,8 +23,7 @@ module.exports = {
     ]
   },
   resolve: {
-    modulesDirectories: ["web_modules", "node_modules", "bower_components", "alias"],
-    alias: { "matter-js": "matter-js/build/matter.min" }
+    modulesDirectories: ["web_modules", "node_modules", "bower_components"]
   },
   plugins: [new webpack.ResolverPlugin(
     new webpack.ResolverPlugin
