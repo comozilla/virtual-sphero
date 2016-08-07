@@ -2,9 +2,9 @@ import { Engine, Render, World, Body, Bodies } from "matter-js";
 
 export default class Grounds {
   constructor(width, height, engine) {
-  this.engine = engine;
-  this.walls = {};
-  this.setSize(width, height);
+    this.engine = engine;
+    this.walls = {};
+    this.setSize(width, height);
   }
 
   refreshWalls() {

@@ -84,11 +84,8 @@ export default class VirtualSphero {
     this.y = Math.min(this.y, this.canvas.height - 50);
   }
 
-  setPosition(positionX, positionY) {
-    Body.setPosition(this.body, {
-      x: positionX,
-      y: positionY
-    });
+  setPosition(x, y) {
+    Body.setPosition(this.body, { x, y });
   }
 
   moveToScreen() {

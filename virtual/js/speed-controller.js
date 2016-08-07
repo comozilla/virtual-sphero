@@ -1,5 +1,5 @@
 export default class SpeedController {
-	constructor(){
+  constructor() {
     this._element = document.getElementById("speed");
     this.speed = 0.2;
     this._element.value = this.speed;
