@@ -1,4 +1,5 @@
-import VirtualSpheroController from "./virtual-sphero-controller"; 
+import VirtualSpheroController from "./virtual-sphero-controller";
+import "./style.css";
 
 document.addEventListener("DOMContentLoaded", function() {
   const sphero = new VirtualSpheroController();
