@@ -1,7 +1,7 @@
 import VirtualSphero from "./virtual-sphero";
 import SpeedController from "./speed-controller";
 import Grounds from "./grounds";
-import { Engine, Render, World, Body, Bodies } from "matter-js";
+import { Engine, Render, World, Body, Bodies }from "matter-js";
 
 export default class VirtualSpheroController {
   constructor() {
@@ -54,6 +54,11 @@ export default class VirtualSpheroController {
     this.grounds.setSize(this.canvas.width, this.canvas.height);
   }
 
+  resizeCanvas() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
+
   clearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
@@ -80,6 +85,7 @@ export default class VirtualSpheroController {
 }
 
 const commands = [
+
   /* sphero.js */
   "setHeading",
   "setStabilization",
@@ -138,6 +144,7 @@ const commands = [
   "answerInput",
   "commitToFlash",
   "commitToFlashAlias",
+
   /* custom.js */
   "streamData",
   "color",

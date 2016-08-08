@@ -2,7 +2,7 @@ import http from "http";
 import path from "path";
 import mime from "mime";
 import fs from "fs";
-import { server as WebSocketServer } from "websocket";
+import { server as WebSocketServer }from "websocket";
 import express from "express";
 import socketIO from "socket.io";
 

@@ -32,11 +32,11 @@ const testKeys = {
     console.log("rotate sphero");
     commandAll("roll", [0, Math.floor(Math.random() * 361)]);
   }
-}
+};
 
 keypress(process.stdin);
 
-process.stdin.on('keypress', function (ch, key) {
+process.stdin.on("keypress", function(ch, key) {
   if (key && typeof testKeys[key.name] !== "undefined") {
     if (Array.isArray(testKeys[key.name])) {
       const args = testKeys[key.name];
@@ -49,7 +49,7 @@ process.stdin.on('keypress', function (ch, key) {
   } else if (key && key.ctrl && key.name === "c") {
     process.exit();
   } else {
-    console.log('got "keypress"', key);
+    console.log("got \"keypress\"", key);
   }
 });
 
