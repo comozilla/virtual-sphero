@@ -24,7 +24,7 @@ function getRect(groundType) {
   const thickness = 100;
   const positions = {
     top: { x: this.width / 2, y: -(thickness / 2), width: this.width, height: thickness },
-    right: { x: this.width + thickness / 2, y : this.height / 2, width: thickness, height: this.height },
+    right: { x: this.width + thickness / 2, y: this.height / 2, width: thickness, height: this.height },
     bottom: { x: this.width / 2, y: this.height + thickness / 2, width: this.width, height: thickness },
     left: { x: -(thickness / 2), y: this.height / 2, width: thickness, height: this.height }
   };
