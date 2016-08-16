@@ -22,6 +22,7 @@ module.exports = {
       { test: /\.(jpg|png)$/, loaders: "url-loader" }
     ]
   },
+  devtool: "source-map",
   resolve: {
     modulesDirectories: ["web_modules", "node_modules", "bower_components"]
   },
