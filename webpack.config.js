@@ -5,7 +5,7 @@ module.exports = {
   entry: "./virtual/js/main.js",
   output: {
     path: __dirname,
-    filename: "./virtual/js/build/bundle.js"
+    filename: "./virtual/js/build/bundle.min.js"
   },
   module: {
     loaders: [
