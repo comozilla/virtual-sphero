@@ -5,7 +5,7 @@ module.exports = {
   entry: "./virtual/js/main.js",
   output: {
     path: __dirname,
-    filename: "./virtual/js/build/bundle.js"
+    filename: "./virtual/js/build/bundle.min.js"
   },
   module: {
     loaders: [
@@ -22,6 +22,7 @@ module.exports = {
       { test: /\.(jpg|png)$/, loaders: "url-loader" }
     ]
   },
+  devtool: "source-map",
   resolve: {
     modulesDirectories: ["web_modules", "node_modules", "bower_components"]
   },
