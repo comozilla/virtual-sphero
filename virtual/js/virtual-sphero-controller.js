@@ -9,6 +9,12 @@ export default class VirtualSpheroController {
     this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
     this.socket = io();
 
+    this.socket.on("connect", () => {
+      this.socket.emit("request", {
+        showSpheros: this.showSpheros
+      })
+    });
+
     this.socket.on("addVirtualSphero", spheroName => {
       this.addVirtualSphero(spheroName);
     });
