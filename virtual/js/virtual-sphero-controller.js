@@ -12,7 +12,7 @@ export default class VirtualSpheroController {
     this.socket.on("connect", () => {
       this.socket.emit("request", {
         showSpheros: this.showSpheros
-      })
+      });
     });
 
     this.socket.on("addVirtualSphero", spheroName => {

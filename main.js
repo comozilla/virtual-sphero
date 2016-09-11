@@ -47,7 +47,7 @@ export default class VirtualPlugin {
       return;
     }
     objectValues(this.sockets).forEach(socketDetails => {
-     if (socketDetails.option.showSpheros === null || socketDetails.option.showSpheros.indexOf(spheroName) !== -1) {
+      if (socketDetails.option.showSpheros === null || socketDetails.option.showSpheros.indexOf(spheroName) !== -1) {
         socketDetails.socket.emit("addVirtualSphero", spheroName);
       }
       this.virtualSpheroNames.push(spheroName);
