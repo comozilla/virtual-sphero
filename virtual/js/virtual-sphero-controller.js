@@ -70,17 +70,13 @@ export default class VirtualSpheroController {
   }
 
   addVirtualSphero(spheroName) {
-    if (this.showSpheros === null || this.showSpheros.indexOf(spheroName) !== -1) {
-      this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
-      World.add(this.engine.world, this.virtualSpheros[spheroName].body);
-    }
+    this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
+    World.add(this.engine.world, this.virtualSpheros[spheroName].body);
   }
 
   removeVirtualSphero(spheroName) {
-    if (typeof this.virtualSpheros[spheroName] !== "undefined") {
-      World.remove(this.engine.world, this.virtualSpheros[spheroName].body);
-      delete this.virtualSpheros[spheroName];
-    }
+    World.remove(this.engine.world, this.virtualSpheros[spheroName].body);
+    delete this.virtualSpheros[spheroName];
   }
 
   fixSpherosPosition() {
