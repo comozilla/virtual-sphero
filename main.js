@@ -5,10 +5,11 @@ import fs from "fs";
 import { server as WebSocketServer } from "websocket";
 import express from "express";
 import socketIO from "socket.io";
+import objectValues from "./util/object-values";
 
 export default class VirtualPlugin {
   constructor(wsPort, allowedOrigin) {
-    this.sockets = [];
+    this.sockets = {};
     this.virtualSpheroNames = [];
 
     this.app = express();
@@ -21,16 +22,23 @@ export default class VirtualPlugin {
     });
 
     this.io.on("connection", socket => {
-      this.sockets.push(socket);
-      this.virtualSpheroNames.forEach(spheroName => {
-        socket.emit("addVirtualSphero", spheroName);
+      socket.on("request", option => {
+        this.sockets[socket.id] = {
+          socket,
+          option
+        };
+        this.virtualSpheroNames.forEach(spheroName => {
+          if (option.showSpheros === null || option.showSpheros.indexOf(spheroName) !== -1) {
+            socket.emit("addVirtualSphero", spheroName);
+          }
+        });
       });
     });
   }
 
   command(spheroName, commandName, args) {
-    this.sockets.forEach(socket => {
-      socket.emit("command", spheroName, commandName, args);
+    objectValues(this.sockets).forEach(socketDetails => {
+      socketDetails.socket.emit("command", spheroName, commandName, args);
     });
   }
 
@@ -38,18 +46,20 @@ export default class VirtualPlugin {
     if (this.virtualSpheroNames.indexOf(spheroName) !== -1) {
       return;
     }
-    this.sockets.forEach(socket => {
-      socket.emit("addVirtualSphero", spheroName);
+    objectValues(this.sockets).forEach(socketDetails => {
+      if (socketDetails.option.showSpheros === null || socketDetails.option.showSpheros.indexOf(spheroName) !== -1) {
+        socketDetails.socket.emit("addVirtualSphero", spheroName);
+      }
+      this.virtualSpheroNames.push(spheroName);
     });
-    this.virtualSpheroNames.push(spheroName);
   }
 
   removeSphero(spheroName) {
     if (this.virtualSpheroNames.indexOf(spheroName) === -1) {
       return;
     }
-    this.sockets.forEach(socket => {
-      socket.emit("removeVirtualSphero", spheroName);
+    objectValues(this.sockets).forEach(socketDetails => {
+      socketDetails.socket.emit("removeVirtualSphero", spheroName);
     });
     this.virtualSpheroNames.splice(this.virtualSpheroNames.indexOf(spheroName), 1);
   }
