@@ -88,18 +88,16 @@ export default class VirtualSphero {
     Body.setPosition(this.body, { x, y });
   }
 
-  moveToScreen() {
-    if (this.body.position.x > this.canvas.width - 50) {
-      this.setPosition(this.canvas.width - 50, this.body.position.y);
-    }
-    if (this.body.position.x < 0) {
-      this.setPosition(1, this.body.position.y);
-    }
-    if (this.body.position.y > this.canvas.height - 50) {
-      this.setPosition(this.body.position.x, this.canvas.height - 50);
-    }
-    if (this.body.position.y < 0) {
-      this.setPosition(this.body.position.x, 1);
+  moveToScreen(width, height) {
+    switch (this.body.position) {
+      case position.x > width:
+        this.setPosition(width, position.y);
+      case position.x < 0:
+        this.setPosition(1, position.y);
+      case position.y > height:
+        this.setPosition(position.x, height);
+      case position.y < 0:
+        this.setPosition(position.x, 1);
     }
   }
 }

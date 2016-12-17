@@ -81,7 +81,7 @@ export default class VirtualSpheroController {
 
   fixSpherosPosition() {
     Object.keys(this.virtualSpheros).forEach(spheroName => {
-      this.virtualSpheros[spheroName].moveToScreen();
+      this.virtualSpheros[spheroName].moveToScreen(this.canvas.width - 50, this.canvas.height - 50);
     });
   }
 }
