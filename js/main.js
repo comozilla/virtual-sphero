@@ -1,5 +1,5 @@
 import keypress from "keypress";
-import VirtualSphero from "./main";
+import VirtualSphero from "./virtual-sphero";
 
 const virtualSphero = new VirtualSphero(8081, "*");
 
