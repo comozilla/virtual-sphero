@@ -35,14 +35,12 @@ export default class VirtualSpheroController {
 
     this.engine = Engine.create();
     this.engine.world.gravity.y = 0;
+    Engine.run(this.engine);
 
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
-
-    this.grounds = new Grounds(this.canvas.width, this.canvas.height, this.engine);
-    Engine.run(this.engine);
 
     const tick = () => {
       this.clearCanvas();
@@ -54,10 +52,6 @@ export default class VirtualSpheroController {
     };
     requestAnimationFrame(tick);
     this.virtualSpheros = {};
-  }
-
-  resetGrounds() {
-    this.grounds.setSize(this.canvas.width, this.canvas.height);
   }
 
   resizeCanvas() {
@@ -77,12 +71,6 @@ export default class VirtualSpheroController {
   removeVirtualSphero(spheroName) {
     World.remove(this.engine.world, this.virtualSpheros[spheroName].body);
     delete this.virtualSpheros[spheroName];
-  }
-
-  fixSpherosPosition() {
-    Object.keys(this.virtualSpheros).forEach(spheroName => {
-      this.virtualSpheros[spheroName].moveToScreen(this.canvas.width - 50, this.canvas.height - 50);
-    });
   }
 }
 
