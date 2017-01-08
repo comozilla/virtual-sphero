@@ -77,12 +77,15 @@ export default class VirtualSphero {
   }
 
   fixPosition() {
-    const x = Math.max(this.body.position.x, 0 + this.radius);
-    const y = Math.max(this.body.position.y, 0 + this.radius);
-    this.setPosition(Math.floor(Math.min(x, this.canvas.width - this.radius)), Math.floor(Math.min(y, this.canvas.height - this.radius)));
+    this.setPosition(this.getValueInRange(this.width - this.radius, this.radius, this.body.position.x),
+      this.getValueInRange(this.height - this.radius, this.radius, this.body.position.y));
   }
 
   setPosition(x, y) {
     Body.setPosition(this.body, { x, y });
+  }
+
+  getValueInRange(max, min, num) {
+    return Math.max(min, Math.min(num, max));
   }
 }
