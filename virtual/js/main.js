@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
   window.addEventListener("resize", function() {
     sphero.resizeCanvas();
     sphero.clearCanvas();
-    sphero.resetGrounds();
     sphero.fixSpherosPosition();
   });
 });

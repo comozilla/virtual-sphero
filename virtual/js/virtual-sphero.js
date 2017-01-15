@@ -71,35 +71,21 @@ export default class VirtualSphero {
     const rad = this.direction * Math.PI / 180;
     this.ctx.save();
     this.ctx.setTransform(Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), this.body.position.x, this.body.position.y);
-    this.ctx.translate(-1 * this.radius + 10, -1 * this.radius + 10);
+    this.ctx.translate(-this.radius + 10, -this.radius + 10);
     this.ctx.drawImage(this.logo, 0, 0, 30, 30);
     this.ctx.restore();
   }
 
   fixPosition() {
-    this.x = Math.max(this.x, 0);
-    this.y = Math.max(this.y, 0);
-
-    this.x = Math.min(this.x, this.canvas.width - 50);
-    this.y = Math.min(this.y, this.canvas.height - 50);
+    this.setPosition(this.getValueInRange(this.width - this.radius, this.radius, this.body.position.x),
+      this.getValueInRange(this.height - this.radius, this.radius, this.body.position.y));
   }
 
   setPosition(x, y) {
     Body.setPosition(this.body, { x, y });
   }
 
-  moveToScreen() {
-    if (this.body.position.x > this.canvas.width - 50) {
-      this.setPosition(this.canvas.width - 50, this.body.position.y);
-    }
-    if (this.body.position.x < 0) {
-      this.setPosition(1, this.body.position.y);
-    }
-    if (this.body.position.y > this.canvas.height - 50) {
-      this.setPosition(this.body.position.x, this.canvas.height - 50);
-    }
-    if (this.body.position.y < 0) {
-      this.setPosition(this.body.position.x, 1);
-    }
+  getValueInRange(max, min, num) {
+    return Math.max(min, Math.min(num, max));
   }
 }
