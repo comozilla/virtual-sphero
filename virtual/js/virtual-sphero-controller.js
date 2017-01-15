@@ -1,5 +1,4 @@
 import VirtualSphero from "./virtual-sphero";
-import SpeedController from "./speed-controller";
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
 export default class VirtualSpheroController {
