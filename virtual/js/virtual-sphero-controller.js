@@ -1,5 +1,4 @@
 import VirtualSphero from "./virtual-sphero";
-import SpeedController from "./speed-controller";
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
 export default class VirtualSpheroController {
@@ -29,8 +28,6 @@ export default class VirtualSpheroController {
         virtualSphero[commandName].apply(virtualSphero, args);
       }
     });
-
-    this.speedController = new SpeedController();
 
     this.engine = Engine.create();
     this.engine.world.gravity.y = 0;
