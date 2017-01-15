@@ -44,8 +44,8 @@ export default class VirtualSpheroController {
     const tick = () => {
       this.clearCanvas();
       Object.keys(this.virtualSpheros).forEach(spheroName => {
-        this.virtualSpheros[spheroName].move();
-        this.virtualSpheros[spheroName].draw();
+        this.virtualSpheros[spheroName].tick();
+        this.virtualSpheros[spheroName].draw(this.ctx);
       });
       requestAnimationFrame(tick);
     };
@@ -63,7 +63,7 @@ export default class VirtualSpheroController {
   }
 
   addVirtualSphero(spheroName) {
-    this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
+    this.virtualSpheros[spheroName] = new VirtualSphero(spheroName, this.canvas.width, this.canvas.height);
     World.add(this.engine.world, this.virtualSpheros[spheroName].body);
   }
 

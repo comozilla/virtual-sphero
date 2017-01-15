@@ -1,9 +1,7 @@
 import { Body, Bodies } from "matter-js";
 
 export default class VirtualSphero {
-  constructor(canvas, speedController, spheroName) {
-    this.speedController = speedController;
-    this.canvas = canvas;
+  constructor(spheroName, width, height) {
     this.spheroName = spheroName;
 
     this.ex = 0;
@@ -16,10 +14,9 @@ export default class VirtualSphero {
     });
     this.body.restitution = 0;
 
-    this.width = this.canvas.width;
-    this.height = this.canvas.height;
+    this.width = width;
+    this.height = height;
 
-    this.ctx = this.canvas.getContext("2d");
     this.fillColor = "white";
 
     this.logo = new Image();
@@ -30,6 +27,7 @@ export default class VirtualSphero {
     };
   }
 
+  // sphero.js methods
   roll(far, degree) {
     this.rotate(degree);
     const direction = (degree + 270) % 360;
@@ -49,7 +47,8 @@ export default class VirtualSphero {
     this.fillColor = "#" + Math.floor(Math.random() * 16777216).toString(16);
   }
 
-  move() {
+  // virtual-sphero methods
+  tick() {
     Body.setPosition(this.body, {
       x: this.body.position.x + this.ex,
       y: this.body.position.y + this.ey
@@ -57,23 +56,23 @@ export default class VirtualSphero {
     this.fixPosition();
   }
 
-  draw() {
+  draw(ctx) {
     if (!this.isLoadedLogo) {
       return;
     }
 
-    this.ctx.beginPath();
-    this.ctx.fillStyle = this.fillColor;
-    this.ctx.arc(this.body.position.x, this.body.position.y, this.radius, 0, Math.PI * 2, true);
-    this.ctx.fill();
-    this.ctx.stroke();
+    ctx.beginPath();
+    ctx.fillStyle = this.fillColor;
+    ctx.arc(this.body.position.x, this.body.position.y, this.radius, 0, Math.PI * 2, true);
+    ctx.fill();
+    ctx.stroke();
 
     const rad = this.direction * Math.PI / 180;
-    this.ctx.save();
-    this.ctx.setTransform(Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), this.body.position.x, this.body.position.y);
-    this.ctx.translate(-this.radius + 10, -this.radius + 10);
-    this.ctx.drawImage(this.logo, 0, 0, 30, 30);
-    this.ctx.restore();
+    ctx.save();
+    ctx.setTransform(Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), this.body.position.x, this.body.position.y);
+    ctx.translate(-this.radius + 10, -this.radius + 10);
+    ctx.drawImage(this.logo, 0, 0, 30, 30);
+    ctx.restore();
   }
 
   fixPosition() {
