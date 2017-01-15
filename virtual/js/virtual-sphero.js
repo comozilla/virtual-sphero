@@ -9,15 +9,11 @@ export default class VirtualSphero {
     this.ex = 0;
     this.ey = 0;
     this.radius = 25;
-    this.direction = 0;
+    this.degree = 0;
 
     this.body = Bodies.circle(1, 1, this.radius, {
       friction: 0.1
     });
-    this.body.restitution = 0;
-
-    this.width = this.canvas.width;
-    this.height = this.canvas.height;
 
     this.ctx = this.canvas.getContext("2d");
     this.fillColor = "white";
@@ -30,15 +26,15 @@ export default class VirtualSphero {
     };
   }
 
-  roll(far, degree) {
+  roll(speed, degree) {
     this.rotate(degree);
-    const direction = (degree + 270) % 360;
-    this.ex = Math.cos(direction * Math.PI / 180) * far * 0.1;
-    this.ey = Math.sin(direction * Math.PI / 180) * far * 0.1;
+    const rollDegree = (this.degree + 270) % 360;
+    this.ex = Math.cos(rollDegree * Math.PI / 180) * speed * 0.1;
+    this.ey = Math.sin(rollDegree * Math.PI / 180) * speed * 0.1;
   }
 
   rotate(degree) {
-    this.direction = degree;
+    this.degree = degree;
   }
 
   color(color) {
@@ -50,10 +46,7 @@ export default class VirtualSphero {
   }
 
   move() {
-    Body.setPosition(this.body, {
-      x: this.body.position.x + this.ex,
-      y: this.body.position.y + this.ey
-    });
+    this.setPosition(this.body.position.x + this.ex, this.body.position.y + this.ey);
     this.fixPosition();
   }
 
@@ -68,7 +61,7 @@ export default class VirtualSphero {
     this.ctx.fill();
     this.ctx.stroke();
 
-    const rad = this.direction * Math.PI / 180;
+    const rad = this.degree * Math.PI / 180;
     this.ctx.save();
     this.ctx.setTransform(Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), this.body.position.x, this.body.position.y);
     this.ctx.translate(-this.radius + 10, -this.radius + 10);
@@ -77,8 +70,8 @@ export default class VirtualSphero {
   }
 
   fixPosition() {
-    this.setPosition(this.getValueInRange(this.width - this.radius, this.radius, this.body.position.x),
-      this.getValueInRange(this.height - this.radius, this.radius, this.body.position.y));
+    this.setPosition(this.getValueInRange(this.canvas.width - this.radius, this.radius, this.body.position.x),
+      this.getValueInRange(this.canvas.height - this.radius, this.radius, this.body.position.y));
   }
 
   setPosition(x, y) {
