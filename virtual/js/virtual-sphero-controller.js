@@ -1,5 +1,4 @@
 import VirtualSphero from "./virtual-sphero";
-import SpeedController from "./speed-controller";
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
 export default class VirtualSpheroController {
@@ -30,8 +29,6 @@ export default class VirtualSpheroController {
       }
     });
 
-    this.speedController = new SpeedController();
-
     this.engine = Engine.create();
     this.engine.world.gravity.y = 0;
     Engine.run(this.engine);
@@ -44,8 +41,8 @@ export default class VirtualSpheroController {
     const tick = () => {
       this.clearCanvas();
       Object.keys(this.virtualSpheros).forEach(spheroName => {
-        this.virtualSpheros[spheroName].move();
-        this.virtualSpheros[spheroName].draw();
+        this.virtualSpheros[spheroName].tick();
+        this.virtualSpheros[spheroName].draw(this.ctx);
       });
       requestAnimationFrame(tick);
     };
@@ -63,7 +60,7 @@ export default class VirtualSpheroController {
   }
 
   addVirtualSphero(spheroName) {
-    this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
+    this.virtualSpheros[spheroName] = new VirtualSphero(spheroName, this.canvas.width, this.canvas.height);
     World.add(this.engine.world, this.virtualSpheros[spheroName].body);
   }
 
