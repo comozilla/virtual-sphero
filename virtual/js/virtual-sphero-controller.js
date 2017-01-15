@@ -30,8 +30,6 @@ export default class VirtualSpheroController {
       }
     });
 
-    this.speedController = new SpeedController();
-
     this.engine = Engine.create();
     this.engine.world.gravity.y = 0;
     Engine.run(this.engine);
@@ -63,7 +61,7 @@ export default class VirtualSpheroController {
   }
 
   addVirtualSphero(spheroName) {
-    this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
+    this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, spheroName);
     World.add(this.engine.world, this.virtualSpheros[spheroName].body);
   }
 

@@ -5,10 +5,10 @@ const virtualSphero = new VirtualSphero(8081, "*");
 
 // キーにテストする内容を割り当てる
 const testKeys = {
-  up: ["roll", 100, 0],
-  right: ["roll", 100, 90],
-  down: ["roll", 100, 180],
-  left: ["roll", 100, 270],
+  up: ["roll", virtualSphero.getSpeed(), 0],
+  right: ["roll", virtualSphero.getSpeed(), 90],
+  down: ["roll", virtualSphero.getSpeed(), 180],
+  left: ["roll", virtualSphero.getSpeed(), 270],
   space: ["roll", 0, 0],
   r: ["randomColor", null],
   a: function() {
@@ -18,7 +18,7 @@ const testKeys = {
   },
   b: function() {
     console.log("add sphero");
-    virtualSphero.addSphero(`Sphero${new Date().getTime()}`);
+    virtualSphero.addSphero(`Sphero${+new Date() + Math.floor(Math.random() * 1000)}`);
   },
   d: function() {
     console.log("remove sphero");
@@ -38,7 +38,10 @@ keypress(process.stdin);
 
 process.stdin.on("keypress", function(ch, key) {
   if (key && typeof testKeys[key.name] !== "undefined") {
-    if (Array.isArray(testKeys[key.name])) {
+    if (key && key.shift && key.name === "up" || key && key.shift && key.name === "down") {
+      virtualSphero.setSpeed(key.name === "up" ? 1 : -1);
+      console.log(`set speed: ${virtualSphero.getSpeed()}`);
+    } else if (Array.isArray(testKeys[key.name])) {
       const args = testKeys[key.name];
       console.log(`orb.${args[0]}(${args.slice(1).map(arg => "\"" + arg + "\"").join(", ")});`);
       commandAll(args[0], args.slice(1));

@@ -11,6 +11,7 @@ export default class VirtualPlugin {
   constructor(wsPort, allowedOrigin) {
     this.sockets = {};
     this.virtualSpheroNames = [];
+    this.VirtualSpheroSpeed = 100;
 
     this.app = express();
     this.server = http.Server(this.app);
@@ -64,7 +65,15 @@ export default class VirtualPlugin {
     this.virtualSpheroNames.splice(this.virtualSpheroNames.indexOf(spheroName), 1);
   }
 
+  setSpeed(speed) {
+    this.VirtualSpheroSpeed += speed;
+  }
+
   getNames() {
     return this.virtualSpheroNames;
+  }
+
+  getSpeed() {
+    return this.VirtualSpheroSpeed;
   }
 }

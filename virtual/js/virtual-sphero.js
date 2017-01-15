@@ -1,8 +1,7 @@
 import { Body, Bodies } from "matter-js";
 
 export default class VirtualSphero {
-  constructor(canvas, speedController, spheroName) {
-    this.speedController = speedController;
+  constructor(canvas, spheroName) {
     this.canvas = canvas;
     this.spheroName = spheroName;
 
