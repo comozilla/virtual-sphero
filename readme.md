@@ -15,7 +15,14 @@
 $ npm install
 ```
 
+### ビルド
+```
+$ npm run build
+```
+
+`build:watch` にすると、`webpack --watch` オプションを付けることができる
+
 ### 試す
 ```
-$ node test
+$ npm start
 ```
