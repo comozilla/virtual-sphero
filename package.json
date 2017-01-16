@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --progress --colors --optimize-minimize",
+    "build:watch": "webpack --progress --colors --optimize-minimize --watch",
     "start": "babel-node test",
     "lint": "eslint --fix --ignore-path ./.eslintignore js/ test/ gulpfile.js webpack.config.js"
   },
