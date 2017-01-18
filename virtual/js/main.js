@@ -1,11 +1,10 @@
-import VirtualSpheroController from "./virtual-sphero-controller";
+import virtualSpheroManeger from "./virtual-sphero-maneger";
 import "../css/style.css";
 
 document.addEventListener("DOMContentLoaded", function() {
-  const sphero = new VirtualSpheroController();
+  const sphero = new virtualSpheroManeger();
 
   window.addEventListener("resize", function() {
-    sphero.resizeCanvas();
-    sphero.clearCanvas();
+    sphero.resizeWindow();
   });
 });

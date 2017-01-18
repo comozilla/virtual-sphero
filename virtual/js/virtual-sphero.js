@@ -1,6 +1,6 @@
 import { Body, Bodies } from "matter-js";
 
-export default class VirtualSphero {
+export default class virtualSphero {
   constructor(canvas, spheroName) {
     this.canvas = canvas;
     this.spheroName = spheroName;
