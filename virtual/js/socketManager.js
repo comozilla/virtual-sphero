@@ -5,7 +5,7 @@ export default class SocketManager {
     this.socket = io();
 
     this.socket.on("connect", () => {
-      eventPublisher.publish("isNeedShowSpheros", true);
+      eventPublisher.publish("needShowSpheros");
     });
 
     this.socket.on("addVirtualSphero", spheroName => {

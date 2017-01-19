@@ -1,6 +1,4 @@
 import virtualSphero from "./virtual-sphero";
-import CanvasManager from "./canvasManager";
-import SocketManager from "./socketManager";
 import eventPublisher from "./publisher";
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
@@ -9,10 +7,8 @@ export default class VirtualSpheroManager {
     const showParam = getParams().show;
     this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
 
-    eventPublisher.subscribe("isNeedShowSpheros", isNeed => {
-      if (isNeed) {
-        eventPublisher.publish("sendShowSpheros", this.showSpheros);
-      }
+    eventPublisher.subscribe("needShowSpheros", () => {
+      eventPublisher.publish("sendShowSpheros", this.showSpheros);
     });
 
     eventPublisher.subscribe("addVirtualSphero", spheroName => {
@@ -35,13 +31,10 @@ export default class VirtualSpheroManager {
     this.engine.world.gravity.y = 0;
     Engine.run(this.engine);
 
-    this.socketManager = new SocketManager();
-
     this.canvas = document.getElementById("canvas");
-    this.canvasManager = new CanvasManager(this.canvas);
 
     const tick = () => {
-      this.canvasManager.clearCanvas();
+      eventPublisher.publish("clearCanvas");
       Object.keys(this.virtualSpheros).forEach(spheroName => {
         this.virtualSpheros[spheroName].move();
         this.virtualSpheros[spheroName].draw();
@@ -60,11 +53,6 @@ export default class VirtualSpheroManager {
   removeVirtualSphero(spheroName) {
     World.remove(this.engine.world, this.virtualSpheros[spheroName].body);
     delete this.virtualSpheros[spheroName];
-  }
-
-  resizeWindow() {
-    this.canvasManager.resizeCanvas();
-    this.canvasManager.clearCanvas();
   }
 }
 
