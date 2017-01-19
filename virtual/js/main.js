@@ -1,12 +1,15 @@
-import VirtualSpheroController from "./virtual-sphero-controller";
+import VirtualSpheroManager from "./virtual-sphero-manager";
+import CanvasManager from "./canvasManager";
+import SocketManager from "./socketManager";
 import "../css/style.css";
 
 document.addEventListener("DOMContentLoaded", function() {
-  const sphero = new VirtualSpheroController();
+  const sphero = new VirtualSpheroManager();
+  const socket = new SocketManager();
+  const canvas = new CanvasManager();
 
   window.addEventListener("resize", function() {
-    sphero.resizeCanvas();
-    sphero.clearCanvas();
-    sphero.fixSpherosPosition();
+    canvas.resizeCanvas();
+    canvas.clearCanvas();
   });
 });

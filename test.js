@@ -2,6 +2,7 @@ import keypress from "keypress";
 import VirtualSphero from "./main";
 
 const virtualSphero = new VirtualSphero(8081, "*");
+let virtualSpheroSpeed = 100;
 
 // キーにテストする内容を割り当てる
 const testKeys = {
@@ -18,7 +19,7 @@ const testKeys = {
   },
   b: function() {
     console.log("add sphero");
-    virtualSphero.addSphero(`Sphero${new Date().getTime()}`);
+    virtualSphero.addSphero(`Sphero${+new Date() + Math.floor(Math.random() * 1000)}`);
   },
   d: function() {
     console.log("remove sphero");
@@ -38,8 +39,11 @@ keypress(process.stdin);
 
 process.stdin.on("keypress", function(ch, key) {
   if (key && typeof testKeys[key.name] !== "undefined") {
-    if (Array.isArray(testKeys[key.name])) {
-      const args = testKeys[key.name];
+    if (key && key.shift && (key.name === "up" || key.name === "down")) {
+      addSpeed(key.name === "up" ? 1 : -1);
+      console.log(`${key.name} speed: ${virtualSpheroSpeed}`);
+    } else if (Array.isArray(testKeys[key.name])) {
+      const args = getArgs(testKeys[key.name], key.name);
       console.log(`orb.${args[0]}(${args.slice(1).map(arg => "\"" + arg + "\"").join(", ")});`);
       commandAll(args[0], args.slice(1));
     } else if (typeof testKeys[key.name] === "function") {
@@ -57,6 +61,17 @@ function commandAll(commandName, args) {
   virtualSphero.virtualSpheroNames.forEach(spheroName => {
     virtualSphero.command(spheroName, commandName, args);
   });
+}
+
+function addSpeed(speed) {
+  virtualSpheroSpeed = Math.max(0, Math.min(255, virtualSpheroSpeed + speed));
+}
+
+function getArgs(array, keyName) {
+  if (keyName !== "space") {
+    array.splice(1, 1, virtualSpheroSpeed);
+  }
+  return array;
 }
 
 process.stdin.setRawMode(true);

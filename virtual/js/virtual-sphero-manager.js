@@ -1,28 +1,25 @@
-import VirtualSphero from "./virtual-sphero";
-import SpeedController from "./speed-controller";
+import virtualSphero from "./virtual-sphero";
+import eventPublisher from "./publisher";
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
-export default class VirtualSpheroController {
+export default class VirtualSpheroManager {
   constructor() {
     const showParam = getParams().show;
     this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
-    this.socket = io();
 
-    this.socket.on("connect", () => {
-      this.socket.emit("request", {
-        showSpheros: this.showSpheros
-      });
+    eventPublisher.subscribe("needShowSpheros", () => {
+      eventPublisher.publish("sendShowSpheros", this.showSpheros);
     });
 
-    this.socket.on("addVirtualSphero", spheroName => {
+    eventPublisher.subscribe("addVirtualSphero", spheroName => {
       this.addVirtualSphero(spheroName);
     });
 
-    this.socket.on("removeVirtualSphero", spheroName => {
+    eventPublisher.subscribe("removeVirtualSphero", spheroName => {
       this.removeVirtualSphero(spheroName);
     });
 
-    this.socket.on("command", (spheroName, commandName, args) => {
+    eventPublisher.subscribe("command", (spheroName, commandName, args) => {
       const virtualSphero = this.virtualSpheros[spheroName];
       if (typeof virtualSphero !== "undefined" &&
           typeof virtualSphero[commandName] !== "undefined") {
@@ -30,19 +27,14 @@ export default class VirtualSpheroController {
       }
     });
 
-    this.speedController = new SpeedController();
-
     this.engine = Engine.create();
     this.engine.world.gravity.y = 0;
     Engine.run(this.engine);
 
     this.canvas = document.getElementById("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
 
     const tick = () => {
-      this.clearCanvas();
+      eventPublisher.publish("clearCanvas");
       Object.keys(this.virtualSpheros).forEach(spheroName => {
         this.virtualSpheros[spheroName].move();
         this.virtualSpheros[spheroName].draw();
@@ -53,17 +45,8 @@ export default class VirtualSpheroController {
     this.virtualSpheros = {};
   }
 
-  resizeCanvas() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-  }
-
-  clearCanvas() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-
   addVirtualSphero(spheroName) {
-    this.virtualSpheros[spheroName] = new VirtualSphero(this.canvas, this.speedController, spheroName);
+    this.virtualSpheros[spheroName] = new virtualSphero(this.canvas, spheroName);
     World.add(this.engine.world, this.virtualSpheros[spheroName].body);
   }
 
@@ -74,7 +57,6 @@ export default class VirtualSpheroController {
 }
 
 const commands = [
-
   /* sphero.js */
   "setHeading",
   "setStabilization",
@@ -133,7 +115,6 @@ const commands = [
   "answerInput",
   "commitToFlash",
   "commitToFlashAlias",
-
   /* custom.js */
   "streamData",
   "color",
