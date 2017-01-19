@@ -1,5 +1,5 @@
-export default class canvasManeger {
-  constractor(canvas) {
+export default class CanvasManager {
+  constructor(canvas) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
     this.canvas.width = window.innerWidth;

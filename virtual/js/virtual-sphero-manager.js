@@ -1,17 +1,17 @@
 import virtualSphero from "./virtual-sphero";
-import canvasManeger from "./canvasManeger";
-import socketManeger from "./socketManeger";
+import CanvasManager from "./canvasManager";
+import SocketManager from "./socketManager";
 import eventPublisher from "./publisher";
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
-export default class virtualSpheroManeger {
+export default class VirtualSpheroManager {
   constructor() {
     const showParam = getParams().show;
     this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
 
     eventPublisher.subscribe("isNeedShowSpheros", isNeed => {
       if (isNeed) {
-        eventPublisher.publish("sendShowSpheros", showSpheros);
+        eventPublisher.publish("sendShowSpheros", this.showSpheros);
       }
     });
 
@@ -23,17 +23,25 @@ export default class virtualSpheroManeger {
       this.removeVirtualSphero(spheroName);
     });
 
+    eventPublisher.subscribe("command", (spheroName, commandName, args) => {
+      const virtualSphero = this.virtualSpheros[spheroName];
+      if (typeof virtualSphero !== "undefined" &&
+          typeof virtualSphero[commandName] !== "undefined") {
+        virtualSphero[commandName].apply(virtualSphero, args);
+      }
+    });
+
     this.engine = Engine.create();
     this.engine.world.gravity.y = 0;
     Engine.run(this.engine);
 
-    this.socketManeger = new socketManeger();
+    this.socketManager = new SocketManager();
 
     this.canvas = document.getElementById("canvas");
-    this.canvasManeger = new canvasManeger(this.canvas);
+    this.canvasManager = new CanvasManager(this.canvas);
 
     const tick = () => {
-      this.canvasManeger.clearCanvas();
+      this.canvasManager.clearCanvas();
       Object.keys(this.virtualSpheros).forEach(spheroName => {
         this.virtualSpheros[spheroName].move();
         this.virtualSpheros[spheroName].draw();
@@ -55,8 +63,8 @@ export default class virtualSpheroManeger {
   }
 
   resizeWindow() {
-    this.canvasManeger.resizeCanvas();
-    this.canvasManeger.clearCanvas();
+    this.canvasManager.resizeCanvas();
+    this.canvasManager.clearCanvas();
   }
 }
 

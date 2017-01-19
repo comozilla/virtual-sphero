@@ -11,12 +11,6 @@ class Publisher {
     }
     this.observers[type].push(observer);
   }
-  subscribeModel(type, observer) {
-    if (typeof this.modelObservers[type] === "undefined") {
-      this.modelObservers[type] = [];
-    }
-    this.modelObservers[type].push(observer);
-  }
   publish(type, ...nextDatas) {
     if (type.indexOf(":") !== -1) {
       throw new Error("publishのtypeに「:」を含むことはできません。");
