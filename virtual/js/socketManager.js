@@ -1,7 +1,7 @@
 import eventPublisher from "./publisher";
 
 export default class SocketManager {
-  constractor() {
+  constructor() {
     this.socket = io();
 
     this.socket.on("connect", () => {
@@ -9,19 +9,15 @@ export default class SocketManager {
     });
 
     this.socket.on("addVirtualSphero", spheroName => {
-      this.addVirtualSphero(spheroName);
+      eventPublisher.publish("addVirtualSphero", spheroName);
     });
 
     this.socket.on("removeVirtualSphero", spheroName => {
-      this.removeVirtualSphero(spheroName);
+      eventPublisher.publish("removeVirtualSphero", spheroName);
     });
 
     this.socket.on("command", (spheroName, commandName, args) => {
-      const virtualSphero = this.virtualSpheros[spheroName];
-      if (typeof virtualSphero !== "undefined" &&
-          typeof virtualSphero[commandName] !== "undefined") {
-        virtualSphero[commandName].apply(virtualSphero, args);
-      }
+      eventPublisher.publish("command", spheroName, commandName, args);
     });
 
     eventPublisher.subscribe("sendShowSpheros", showSpheros => {
@@ -29,13 +25,5 @@ export default class SocketManager {
         showSpheros: showSpheros
       });
     });
-  }
-
-  addVirtualSphero(spheroName) {
-    eventPublisher.publish("addVirtualSphero", spheroName);
-  }
-
-  removeVirtualSphero(spheroName) {
-    eventPublisher.publish("removeVirtualSphero", spheroName);
   }
 }

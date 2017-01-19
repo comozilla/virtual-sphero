@@ -1,17 +1,17 @@
 import virtualSphero from "./virtual-sphero";
-import canvasManager from "./canvasManager";
-import socketManager from "./socketManager";
+import CanvasManager from "./canvasManager";
+import SocketManager from "./socketManager";
 import eventPublisher from "./publisher";
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
-export default class virtualSpheroManager {
+export default class VirtualSpheroManager {
   constructor() {
     const showParam = getParams().show;
     this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
 
     eventPublisher.subscribe("isNeedShowSpheros", isNeed => {
       if (isNeed) {
-        eventPublisher.publish("sendShowSpheros", showSpheros);
+        eventPublisher.publish("sendShowSpheros", this.showSpheros);
       }
     });
 
@@ -23,14 +23,22 @@ export default class virtualSpheroManager {
       this.removeVirtualSphero(spheroName);
     });
 
+    eventPublisher.subscribe("command", (spheroName, commandName, args) => {
+      const virtualSphero = this.virtualSpheros[spheroName];
+      if (typeof virtualSphero !== "undefined" &&
+          typeof virtualSphero[commandName] !== "undefined") {
+        virtualSphero[commandName].apply(virtualSphero, args);
+      }
+    });
+
     this.engine = Engine.create();
     this.engine.world.gravity.y = 0;
     Engine.run(this.engine);
 
-    this.socketManager = new socketManager();
+    this.socketManager = new SocketManager();
 
     this.canvas = document.getElementById("canvas");
-    this.canvasManager = new canvasManager(this.canvas);
+    this.canvasManager = new CanvasManager(this.canvas);
 
     const tick = () => {
       this.canvasManager.clearCanvas();
