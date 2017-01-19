@@ -1,4 +1,4 @@
-export default class canvasManeger {
+export default class canvasManager {
   constractor(canvas) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");

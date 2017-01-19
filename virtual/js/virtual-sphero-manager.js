@@ -1,10 +1,10 @@
 import virtualSphero from "./virtual-sphero";
-import canvasManeger from "./canvasManeger";
-import socketManeger from "./socketManeger";
+import canvasManager from "./canvasManager";
+import socketManager from "./socketManager";
 import eventPublisher from "./publisher";
 import { Engine, Render, World, Body, Bodies } from "matter-js";
 
-export default class virtualSpheroManeger {
+export default class virtualSpheroManager {
   constructor() {
     const showParam = getParams().show;
     this.showSpheros = typeof showParam === "undefined" ? null : showParam.split(",");
@@ -27,13 +27,13 @@ export default class virtualSpheroManeger {
     this.engine.world.gravity.y = 0;
     Engine.run(this.engine);
 
-    this.socketManeger = new socketManeger();
+    this.socketManager = new socketManager();
 
     this.canvas = document.getElementById("canvas");
-    this.canvasManeger = new canvasManeger(this.canvas);
+    this.canvasManager = new canvasManager(this.canvas);
 
     const tick = () => {
-      this.canvasManeger.clearCanvas();
+      this.canvasManager.clearCanvas();
       Object.keys(this.virtualSpheros).forEach(spheroName => {
         this.virtualSpheros[spheroName].move();
         this.virtualSpheros[spheroName].draw();
@@ -55,8 +55,8 @@ export default class virtualSpheroManeger {
   }
 
   resizeWindow() {
-    this.canvasManeger.resizeCanvas();
-    this.canvasManeger.clearCanvas();
+    this.canvasManager.resizeCanvas();
+    this.canvasManager.clearCanvas();
   }
 }
 

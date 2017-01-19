@@ -1,6 +1,6 @@
 import eventPublisher from "./publisher";
 
-export default class SocketManeger {
+export default class SocketManager {
   constractor() {
     this.socket = io();
 
